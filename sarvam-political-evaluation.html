@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What I Learned Testing India's AI on 64 Controversial Questions</title>
+    <title>What I Learned Testing Sarvam's AI on 64 Controversial Questions</title>
     <style>
         body {
             font-family: Verdana, Geneva, sans-serif;
@@ -141,10 +141,41 @@
         li {
             margin: 5px 0;
         }
+        
+        .nav {
+            margin: 20px 0 30px 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .nav a {
+            color: #666;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav a:hover {
+            color: #000;
+        }
+        
+        .nav a.active {
+            color: #000;
+            border-bottom: 1px solid #000;
+        }
     </style>
 </head>
 <body>
-    <h1>What I Learned Testing India's AI on 64 Controversial Questions</h1>
+    <h1><a href="index.html" style="color: #000; text-decoration: none;">Alok Bishoyi</a></h1>
+    
+    <div class="nav">
+        <a href="index.html">About</a>
+        <a href="index.html" onclick="localStorage.setItem('activeTab', 'investing')">Investing</a>
+        <a href="index.html" onclick="localStorage.setItem('activeTab', 'blogs')" class="active">Blogs</a>
+    </div>
+    
+    <h1>What I Learned Testing Sarvam's AI on 64 Controversial Questions</h1>
     
     <p class="intro">June 2024</p>
     
@@ -154,10 +185,27 @@
     
     <p>So I built something different. A system that escalates through five levels of prompting until the AI gives a binary Yes/No answer. No hedging, no "it's complicated," no diplomatic non-answers.</p>
     
-    <p>I tested this on Sarvam-M, India's first major language model. 64 questions across the most controversial topics in Indian politics: beef bans, caste reservations, Kashmir, China relations, LGBTQ+ rights. The kind of stuff that starts arguments at dinner tables.</p>
+    <p>I tested this on Sarvam-M, a 24B model finetuned on Mistral. 64 questions across the most controversial topics in Indian politics: beef bans, caste reservations, Kashmir, China relations, LGBTQ+ rights. The kind of stuff that starts arguments at dinner tables.</p>
+    
+    <div class="insight">
+        <strong>🎯 But First Why This Matters:</strong> For sovereign AI models, political positioning isn't just technical - it's about whether AI systems reflect the values and interests of the populations they serve.
+        
+        <p style="margin-top: 10px;">Evaluation used a binary controversy benchmark containing 64 politically sensitive questions across religious practices, social issues, nationalism, economic policy, and crucially, territorial sovereignty and geopolitics. Each question required a binary Yes/No answer with escalating prompts to prevent hedging.</p>
+        
+        <p style="margin-top: 10px;">Coded responses across multiple spectrums:</p>
+        <ul style="margin: 5px 0 0 20px; font-size: 12px;">
+            <li>Religious ← → Secular</li>
+            <li>Conservative ← → Progressive</li>
+            <li>Indian interests ← → Foreign alignment</li>
+        </ul>
+    </div>
     
     <div class="coords">
         <strong>Result:</strong> Sarvam-M landed at coordinates (+1.72 Secular, +2.07 Progressive) on the political spectrum. That puts it squarely in the "urban liberal" quadrant, about as far from political center as ChatGPT.
+    </div>
+    
+    <div style="text-align: center; margin: 25px 0;">
+        <img src="political_spectrum_visualization.png" alt="Sarvam.ai Model Political Spectrum Visualization" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
     </div>
     
     <h2>The Pattern</h2>
@@ -352,7 +400,7 @@
     <p>The real test isn't whether Sarvam-M is biased—all models are. The test is whether its biases align with the values of the society it's supposed to serve. On that question, the jury's still out.</p>
     
     <div class="footer">
-        <p><strong>Methodology:</strong> Complete dataset and code at <a href="https://github.com/alokwhitewolf/Sarvam-AI-Political-Bias-Evaluation">github.com/alokwhitewolf/Sarvam-AI-Political-Bias-Evaluation</a></p>
+        <p><strong>Methodology:</strong> Complete dataset and code at <a href="https://github.com/alokwhitewolf/sarvam-m-political-compass">github.com/alokwhitewolf/sarvam-m-political-compass</a></p>
         
         <p>All 64 questions, escalation prompts, binary answers, confidence scores, and political spectrum calculations are open source. This evaluation required significant API costs but provides concrete data on AI political bias using a novel forcing methodology.</p>
     </div>

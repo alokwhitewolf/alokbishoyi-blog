@@ -72,6 +72,15 @@
             color: #666;
         }
         
+        .post {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .post:hover {
+            background: #f0f0f0;
+        }
+        
         .links {
             font-size: 12px;
             margin: 20px 0;
@@ -94,49 +103,123 @@
             color: #666;
             text-align: center;
         }
+        
+        .nav {
+            margin: 20px 0 30px 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .nav a {
+            color: #666;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav a:hover {
+            color: #000;
+        }
+        
+        .nav a.active {
+            color: #000;
+            border-bottom: 1px solid #000;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <h1>Alok Bishoyi</h1>
     
-    <p>I'm an early-stage investor at Day Zero Ventures and run AWL Inc's India operations. I think about how technology shapes markets and societies.</p>
-    
-    <p>Previously co-founded a computer vision AI company during college. IIT Bombay grad.</p>
-    
-    <div class="links">
-        <a href="https://github.com/alokwhitewolf">GitHub</a>
-        <a href="https://twitter.com/alokwhitewolf">Twitter</a>
-        <a href="https://linkedin.com/in/alokbishoyi">LinkedIn</a>
-        <a href="mailto:alok@dzero.vc">Email</a>
+    <div class="nav">
+        <a href="#" onclick="showTab('about')" class="active" id="about-tab">About</a>
+        <a href="#" onclick="showTab('investing')" id="investing-tab">Investing</a>
+        <a href="#" onclick="showTab('blogs')" id="blogs-tab">Blogs</a>
     </div>
     
-    <h2>Current</h2>
-    
-    <p>At Day Zero, I've backed 12 companies in SaaS, enterprise tech, and dev tooling. Six have raised Series A, two have graduated to Series B.</p>
-    
-    <p>At AWL, I joined pre-Series A and scaled from 30 to 100+ people. We deploy smart cameras across 10,000+ retail, manufacturing, and construction sites in Japan, Southeast Asia, and the Middle East.</p>
-    
-    <p>Lately I've been interested in AI bias—specifically, when countries build "sovereign" AI systems, whose values do they actually embed?</p>
-    
-    <h2>Recent</h2>
-    
-    <div class="post">
-        <div class="post-title">What I Learned Testing India's AI on 64 Controversial Questions</div>
-        <div class="post-date">June 2024</div>
-        <div class="post-excerpt">
-            I built a system that forces AI models to take binary positions on controversial topics. Testing this on Sarvam-M revealed it thinks like an educated urban Indian—but represents only a narrow slice of the country it's supposed to serve.
+    <div id="about" class="tab-content active">
+        <p>I'm an early-stage investor at <a href="https://www.dzero.vc">Day Zero Ventures</a>. I also run the Indian operations for <a href="https://awl.co.jp">AWL</a>, a Japanese AI company.</p>
+        
+        <p>I co-founded a computer vision company while at IIT Bombay. At Day Zero, I've backed 12 companies. Six have raised Series A, two have already graduated to Series B. At AWL, I helped scale from 30 to 100+ people. We deploy smart cameras across 10,000+ sites in Japan, Southeast Asia, and the Middle East.</p>
+        
+        <p>I think about how technology shapes markets and societies.</p>
+        
+        <p>Outside work: games (Age of Empires, Factorio, Cities: Skylines), MMA, NFL, solo travel. Spent a quarter of 2024 in Japan. Planning US roadtrips for 2025.</p>
+        
+        <div class="links">
+            <a href="https://github.com/alokwhitewolf">GitHub</a>
+            <a href="https://x.com/alokbishoyi97">X</a>
+            <a href="https://www.linkedin.com/in/alok-bishoyi/">LinkedIn</a>
+            <span>alok[at]dzero[dot]vc</span>
         </div>
-        <div class="post-link"><a href="sarvam-political-evaluation.html">Read →</a></div>
     </div>
     
-    <h2>Investing</h2>
+    <div id="investing" class="tab-content">
+        <p>I look for founders building infrastructure that enables new kinds of applications. Having built and scaled products myself, I help with product strategy and go-to-market execution.</p>
+        
+        <p>At <a href="https://www.dzero.vc">Day Zero</a>, I've backed 12 companies across US Healthcare, SaaS, Energy and Consumer. Six have raised Series A, two have graduated to Series B.</p>
+        
+        <p>Recent personal investments include Neon, which was acquired by Databricks for $1B.</p>
+        
+        <p>I'm particularly interested in:</p>
+        <ul>
+            <li>Developer tools and infrastructure</li>
+            <li>AI/ML applications in healthcare</li>
+            <li>Energy technology and sustainability</li>
+            <li>Consumer applications leveraging new tech capabilities</li>
+        </ul>
+        
+        <p>If you're building something interesting, I'd love to hear about it.</p>
+    </div>
     
-    <p>I look for founders building infrastructure that enables new kinds of applications. Having built and scaled products myself, I help with product strategy and go-to-market execution.</p>
-    
-    <p>If you're building something interesting, I'd love to hear about it.</p>
+    <div id="blogs" class="tab-content">
+        <div class="post" onclick="window.location.href='sarvam-political-evaluation.html'">
+            <div class="post-title">What I Learned Testing Sarvam's AI on 64 Controversial Questions</div>
+            <div class="post-date">June 2024</div>
+            <div class="post-excerpt">
+                I built a system that forces AI models to take binary positions on controversial topics. Testing this on Sarvam-M revealed it thinks like an educated urban Indian—but represents only a narrow slice of the country it's supposed to serve.
+            </div>
+            <div class="post-link">Read →</div>
+        </div>
+    </div>
     
     <div class="footer">
         <p>Views expressed are my own</p>
     </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to selected nav link
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+        
+        // Check for active tab on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                showTab(activeTab);
+                localStorage.removeItem('activeTab'); // Clear after use
+            }
+        });
+    </script>
 </body>
 </html>
