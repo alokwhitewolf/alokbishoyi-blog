@@ -5,29 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alok Bishoyi</title>
     <style>
+        :root {
+            --bg-color: #fff;
+            --text-color: #000;
+            --text-secondary: #666;
+            --border-color: #ddd;
+            --bg-secondary: #f8f8f8;
+            --bg-tertiary: #f0f0f0;
+            --bg-quaternary: #fafafa;
+            --link-color: #0000ee;
+            --link-hover-color: #0000aa;
+            --link-visited-color: #551a8b;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --text-secondary: #a0a0a0;
+                --border-color: #404040;
+                --bg-secondary: #2a2a2a;
+                --bg-tertiary: #333333;
+                --bg-quaternary: #252525;
+                --link-color: #74b9ff;
+                --link-hover-color: #a0ceff;
+                --link-visited-color: #dda0dd;
+            }
+        }
+        
         body {
             font-family: Verdana, Geneva, sans-serif;
             font-size: 13px;
             line-height: 1.4;
-            color: #000;
+            color: var(--text-color);
             max-width: 580px;
             margin: 0 auto;
             padding: 30px 15px;
-            background: #fff;
+            background: var(--bg-color);
         }
         
         h1 {
             font-size: 18px;
             font-weight: normal;
             margin-bottom: 20px;
-            color: #000;
+            color: var(--text-color);
         }
         
         h2 {
             font-size: 14px;
             font-weight: normal;
             margin: 25px 0 10px 0;
-            color: #000;
+            color: var(--text-color);
         }
         
         p {
@@ -36,10 +64,10 @@
         }
         
         .post {
-            background: #f8f8f8;
+            background: var(--bg-secondary);
             padding: 15px;
             margin: 20px 0;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
         }
         
         .post-title {
@@ -51,7 +79,7 @@
         
         .post-date {
             font-size: 11px;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 10px;
         }
         
@@ -65,11 +93,15 @@
         }
         
         .post-link a {
-            color: #000;
+            color: var(--link-color);
+        }
+        
+        .post-link a:visited {
+            color: var(--link-visited-color);
         }
         
         .post-link a:hover {
-            color: #666;
+            color: var(--link-hover-color);
         }
         
         .post {
@@ -78,7 +110,7 @@
         }
         
         .post:hover {
-            background: #f0f0f0;
+            background: var(--bg-tertiary);
         }
         
         .links {
@@ -87,25 +119,29 @@
         }
         
         .links a {
-            color: #000;
+            color: var(--link-color);
             margin-right: 15px;
         }
         
+        .links a:visited {
+            color: var(--link-visited-color);
+        }
+        
         .links a:hover {
-            color: #666;
+            color: var(--link-hover-color);
         }
         
         .press-item {
-            background: #f8f8f8;
+            background: var(--bg-secondary);
             padding: 20px;
             margin: 20px 0;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
         }
         
         .press-item img {
             max-width: 100%;
             height: auto;
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             margin-bottom: 15px;
         }
         
@@ -118,7 +154,7 @@
         
         .press-publication {
             font-size: 11px;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 10px;
         }
         
@@ -130,20 +166,20 @@
         .footer {
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--border-color);
             font-size: 11px;
-            color: #666;
+            color: var(--text-secondary);
             text-align: center;
         }
         
         .nav {
             margin: 20px 0 30px 0;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
         
         .nav a {
-            color: #666;
+            color: var(--text-secondary);
             text-decoration: none;
             margin-right: 20px;
             font-size: 12px;
@@ -151,12 +187,24 @@
         }
         
         .nav a:hover {
-            color: #000;
+            color: var(--text-color);
         }
         
         .nav a.active {
-            color: #000;
-            border-bottom: 1px solid #000;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--text-color);
+        }
+        
+        a {
+            color: var(--link-color);
+        }
+        
+        a:visited {
+            color: var(--link-visited-color);
+        }
+        
+        a:hover {
+            color: var(--link-hover-color);
         }
         
         .tab-content {

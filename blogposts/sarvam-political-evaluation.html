@@ -5,29 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What I Learned Testing Sarvam's AI on 64 Controversial Questions</title>
     <style>
+        :root {
+            --bg-color: #fff;
+            --text-color: #000;
+            --text-secondary: #666;
+            --border-color: #ddd;
+            --bg-secondary: #f8f8f8;
+            --bg-tertiary: #f0f0f0;
+            --bg-quaternary: #fafafa;
+            --link-color: #0000ee;
+            --link-hover-color: #0000aa;
+            --link-visited-color: #551a8b;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --text-secondary: #a0a0a0;
+                --border-color: #404040;
+                --bg-secondary: #2a2a2a;
+                --bg-tertiary: #333333;
+                --bg-quaternary: #252525;
+                --link-color: #74b9ff;
+                --link-hover-color: #a0ceff;
+                --link-visited-color: #dda0dd;
+            }
+        }
+        
         body {
             font-family: Verdana, Geneva, sans-serif;
             font-size: 13px;
             line-height: 1.4;
-            color: #000;
+            color: var(--text-color);
             max-width: 580px;
             margin: 0 auto;
             padding: 30px 15px;
-            background: #fff;
+            background: var(--bg-color);
         }
         
         h1 {
             font-size: 18px;
             font-weight: normal;
             margin-bottom: 20px;
-            color: #000;
+            color: var(--text-color);
         }
         
         h2 {
             font-size: 14px;
             font-weight: normal;
             margin: 30px 0 10px 0;
-            color: #000;
+            color: var(--text-color);
         }
         
         p {
@@ -37,15 +65,15 @@
         
         .intro {
             font-style: italic;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 25px;
         }
         
         .coords {
-            background: #f8f8f8;
+            background: var(--bg-secondary);
             padding: 15px;
             margin: 20px 0;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             font-size: 12px;
         }
         
@@ -62,7 +90,7 @@
         
         .quote {
             font-style: italic;
-            color: #666;
+            color: var(--text-secondary);
             margin: 15px 0;
             padding-left: 20px;
             font-size: 11px;
@@ -73,15 +101,15 @@
         }
         
         .contradiction {
-            background: #f0f0f0;
+            background: var(--bg-tertiary);
             padding: 12px;
             margin: 15px 0;
-            border-left: 3px solid #ccc;
+            border-left: 3px solid var(--border-color);
             font-size: 12px;
         }
         
         .numbers {
-            background: #f8f8f8;
+            background: var(--bg-secondary);
             padding: 15px;
             margin: 20px 0;
             font-size: 12px;
@@ -89,18 +117,18 @@
         }
         
         .insight {
-            background: #fff;
-            border: 1px solid #ddd;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
             padding: 15px;
             margin: 20px 0;
             font-size: 12px;
         }
         
         .category {
-            background: #fafafa;
+            background: var(--bg-quaternary);
             padding: 12px;
             margin: 15px 0;
-            border-left: 2px solid #bbb;
+            border-left: 2px solid var(--text-secondary);
         }
         
         .category h3 {
@@ -111,7 +139,7 @@
         }
         
         .deduction {
-            background: #f8f8f8;
+            background: var(--bg-secondary);
             padding: 10px;
             margin: 10px 0;
             font-size: 11px;
@@ -119,19 +147,23 @@
         }
         
         a {
-            color: #000;
+            color: var(--link-color);
+        }
+        
+        a:visited {
+            color: var(--link-visited-color);
         }
         
         a:hover {
-            color: #666;
+            color: var(--link-hover-color);
         }
         
         .footer {
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--border-color);
             font-size: 11px;
-            color: #666;
+            color: var(--text-secondary);
         }
         
         ul {
@@ -144,12 +176,12 @@
         
         .nav {
             margin: 20px 0 30px 0;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
         
         .nav a {
-            color: #666;
+            color: var(--text-secondary);
             text-decoration: none;
             margin-right: 20px;
             font-size: 12px;
@@ -157,17 +189,17 @@
         }
         
         .nav a:hover {
-            color: #000;
+            color: var(--text-color);
         }
         
         .nav a.active {
-            color: #000;
-            border-bottom: 1px solid #000;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--text-color);
         }
     </style>
 </head>
 <body>
-    <h1><a href="../index.html" style="color: #000; text-decoration: none;">Alok Bishoyi</a></h1>
+    <h1><a href="../index.html" style="color: var(--link-color); text-decoration: none;">Alok Bishoyi</a></h1>
     
     <div class="nav">
         <a href="../index.html">About</a>
@@ -178,7 +210,7 @@
     
     <h1>What I Learned Testing Sarvam's AI on 64 Controversial Questions</h1>
     
-    <p class="intro">May 2025 | <a href="https://x.com/alokbishoyi97/status/1926284873792188511" style="color: #666;">Also on X</a></p>
+    <p class="intro">May 2025 | <a href="https://x.com/alokbishoyi97/status/1926284873792188511" style="color: var(--link-color);">Also on X</a></p>
     
     <p>I've been thinking about AI bias lately. Not the usual "models are biased" complaints, but something more specific: what happens when you force an AI to take positions on genuinely controversial topics?</p>
     
@@ -206,7 +238,7 @@
     </div>
     
     <div style="text-align: center; margin: 25px 0;">
-        <img src="../assets/political_spectrum_visualization.png" alt="Sarvam.ai Model Political Spectrum Visualization" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
+        <img src="../assets/political_spectrum_visualization.png" alt="Sarvam.ai Model Political Spectrum Visualization" style="max-width: 100%; height: auto; border: 1px solid var(--border-color);">
     </div>
     
     <h2>The Pattern</h2>
@@ -394,11 +426,11 @@
         
         <p>All 64 questions, escalation prompts, binary answers, confidence scores, and political spectrum calculations are open source.</p>
         
-        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; text-align: center;">
-            <a href="https://github.com/alokwhitewolf" style="color: #666; text-decoration: none; margin: 0 10px; font-size: 12px;">GitHub</a>
-            <a href="https://x.com/alokbishoyi97" style="color: #666; text-decoration: none; margin: 0 10px; font-size: 12px;">X</a>
-            <a href="https://www.linkedin.com/in/alok-bishoyi/" style="color: #666; text-decoration: none; margin: 0 10px; font-size: 12px;">LinkedIn</a>
-            <span style="color: #666; margin: 0 10px; font-size: 12px;">alok[at]dzero[dot]vc</span>
+        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color); text-align: center;">
+            <a href="https://github.com/alokwhitewolf" style="color: var(--link-color); text-decoration: none; margin: 0 10px; font-size: 12px;">GitHub</a>
+            <a href="https://x.com/alokbishoyi97" style="color: var(--link-color); text-decoration: none; margin: 0 10px; font-size: 12px;">X</a>
+            <a href="https://www.linkedin.com/in/alok-bishoyi/" style="color: var(--link-color); text-decoration: none; margin: 0 10px; font-size: 12px;">LinkedIn</a>
+            <span style="color: var(--text-secondary); margin: 0 10px; font-size: 12px;">alok[at]dzero[dot]vc</span>
         </div>
     </div>
 </body>
