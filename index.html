@@ -95,6 +95,38 @@
             color: #666;
         }
         
+        .press-item {
+            background: #f8f8f8;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        
+        .press-item img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+        
+        .press-title {
+            font-size: 14px;
+            font-weight: normal;
+            margin-bottom: 8px;
+            text-decoration: underline;
+        }
+        
+        .press-publication {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .press-description {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -143,6 +175,7 @@
         <a href="#" onclick="showTab('about')" class="active" id="about-tab">About</a>
         <a href="#" onclick="showTab('investing')" id="investing-tab">Investing</a>
         <a href="#" onclick="showTab('blogs')" id="blogs-tab">Blogs</a>
+        <a href="#" onclick="showTab('press')" id="press-tab">Press</a>
     </div>
     
     <div id="about" class="tab-content active">
@@ -181,13 +214,24 @@
     </div>
     
     <div id="blogs" class="tab-content">
-        <div class="post" onclick="window.location.href='sarvam-political-evaluation.html'">
+        <div class="post" onclick="window.location.href='blogposts/sarvam-political-evaluation.html'">
             <div class="post-title">What I Learned Testing Sarvam's AI on 64 Controversial Questions</div>
             <div class="post-date">May 2025</div>
             <div class="post-excerpt">
                 I built a system that forces AI models to take binary positions on controversial topics. Testing this on Sarvam-M revealed it thinks like an educated urban Indian—but represents only a narrow slice of the country it's supposed to serve.
             </div>
             <div class="post-link">Read →</div>
+        </div>
+    </div>
+    
+    <div id="press" class="tab-content">
+        <div class="press-item">
+            <div class="press-title">Japanese Startups Invest in India Talent</div>
+            <div class="press-publication">Times of India | May 2023</div>
+            <div class="press-description">
+                Featured in Times of India's coverage of Japanese venture capital investment in Indian talent and technology companies. The article highlights the growing trend of Japanese startups looking to India for technical expertise and innovation.
+            </div>
+            <img src="assets/toi-publication.jpeg" alt="Times of India - Japanese Startups Invest in India Talent">
         </div>
     </div>
     
