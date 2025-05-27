@@ -193,12 +193,12 @@
     
     <h2>Reactions</h2>
     
-    <blockquote class="twitter-tweet">
+    <blockquote class="twitter-tweet" data-theme="auto">
         <p lang="in" dir="ltr">paisa fek tamasha dekh <a href="https://t.co/BeWP7m6Kxq">https://t.co/BeWP7m6Kxq</a> <a href="https://t.co/ho7Ep6WZB0">pic.twitter.com/ho7Ep6WZB0</a></p>
         &mdash; Aditya Behere (@BehereBaba) <a href="https://twitter.com/BehereBaba/status/1825500145074479187?ref_src=twsrc%5Etfw">August 19, 2024</a>
     </blockquote>
     
-    <blockquote class="twitter-tweet">
+    <blockquote class="twitter-tweet" data-theme="auto">
         <p lang="en" dir="ltr">Just in case. if someone wants a reality check as to where they stand in terms of income and how many people in India earn more than them!👇<a href="https://t.co/PNwd7NCIuo">https://t.co/PNwd7NCIuo</a><br><br>Credits-<a href="https://twitter.com/alokbishoyi97?ref_src=twsrc%5Etfw">@alokbishoyi97</a></p>
         &mdash; Reema Bajaj (@reemaabajaj) <a href="https://twitter.com/reemaabajaj/status/1844454432035291397?ref_src=twsrc%5Etfw">October 10, 2024</a>
     </blockquote>
@@ -206,30 +206,41 @@
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
     <script>
-        // Make blockquotes clickable before Twitter widgets load
+        // Set Twitter theme based on system preference
         document.addEventListener('DOMContentLoaded', function() {
-            const tweets = document.querySelectorAll('blockquote.twitter-tweet');
-            console.log('Found', tweets.length, 'tweets');
+            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = isDarkMode ? 'dark' : 'light';
             
+            // Update all tweet themes
+            const tweets = document.querySelectorAll('blockquote.twitter-tweet');
+            tweets.forEach(function(tweet) {
+                tweet.setAttribute('data-theme', theme);
+            });
+            
+            // Make blockquotes clickable before Twitter widgets load
             tweets.forEach(function(tweet, index) {
                 const link = tweet.querySelector('a[href*="twitter.com"], a[href*="x.com"]');
-                console.log('Tweet', index + 1, 'link:', link ? link.href : 'No link found');
                 
                 tweet.addEventListener('click', function() {
                     if (link) {
-                        console.log('Opening:', link.href);
                         window.open(link.href, '_blank');
                     }
                 });
             });
-        });
-        
-        // Debug Twitter widget loading
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const rendered = document.querySelectorAll('.twitter-tweet-rendered');
-                console.log('Rendered tweets:', rendered.length);
-            }, 3000);
+            
+            // Listen for theme changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                    const newTheme = e.matches ? 'dark' : 'light';
+                    tweets.forEach(function(tweet) {
+                        tweet.setAttribute('data-theme', newTheme);
+                    });
+                    // Reload Twitter widgets with new theme
+                    if (typeof twttr !== 'undefined') {
+                        twttr.widgets.load();
+                    }
+                });
+            }
         });
     </script>
     
