@@ -137,6 +137,42 @@
             color: var(--text-secondary);
             font-size: 11px;
         }
+        
+        /* Style blockquotes before Twitter widgets load */
+        blockquote.twitter-tweet {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            background: var(--bg-secondary);
+            font-size: 12px;
+            line-height: 1.4;
+            max-width: 550px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        blockquote.twitter-tweet:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        blockquote.twitter-tweet p {
+            margin: 0 0 12px 0;
+        }
+        
+        blockquote.twitter-tweet a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        
+        blockquote.twitter-tweet a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Hide the blockquote once Twitter widget loads */
+        .twitter-tweet-rendered {
+            display: none;
+        }
     </style>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
@@ -150,17 +186,52 @@
     
     <p>Spent 30 minutes building <a href="https://indiaincomecheck.in/">indiaincomecheck.in</a> - type your income, get your percentile. 20k views in <24 hours. Hit top of r/DevelopersIndia.</p>
     
+        
     <p>This is classic Kahneman bias in action. Indians have asymmetric information about income distribution - massive delta between perception and reality. This created a low-friction discovery mechanism for forbidden knowledge. Status anxiety + social proof = viral coefficient of >1.</p>
     
     <p>Same reason anonymous platforms like Blind explode with TC discussions. Remove identity = remove social cost of bragging/complaining. Developers will overshare compensation data when there's zero reputational risk. Anonymity unlocks authentic behavior that social norms otherwise suppress.</p>
     
-    <h2>Some reactions</h2>
+    <h2>Reactions</h2>
     
-    <blockquote class="twitter-tweet"><p lang="in" dir="ltr">paisa fek tamasha dekh <a href="https://t.co/BeWP7m6Kxq">https://t.co/BeWP7m6Kxq</a> <a href="https://t.co/ho7Ep6WZB0">pic.twitter.com/ho7Ep6WZB0</a></p>&mdash; Aditya Behere (@BehereBaba) <a href="https://twitter.com/BehereBaba/status/1825500145074479187?ref_src=twsrc%5Etfw">August 19, 2024</a></blockquote>
+    <blockquote class="twitter-tweet">
+        <p lang="in" dir="ltr">paisa fek tamasha dekh <a href="https://t.co/BeWP7m6Kxq">https://t.co/BeWP7m6Kxq</a> <a href="https://t.co/ho7Ep6WZB0">pic.twitter.com/ho7Ep6WZB0</a></p>
+        &mdash; Aditya Behere (@BehereBaba) <a href="https://twitter.com/BehereBaba/status/1825500145074479187?ref_src=twsrc%5Etfw">August 19, 2024</a>
+    </blockquote>
     
-    <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Just in case. if someone wants a reality check as to where they stand in terms of income and how many people in India earn more than them!👇<a href="https://t.co/PNwd7NCIuo">https://t.co/PNwd7NCIuo</a><br><br>Credits-<a href="https://twitter.com/alokbishoyi97?ref_src=twsrc%5Etfw">@alokbishoyi97</a></p>&mdash; Reema Bajaj (@reemaabajaj) <a href="https://twitter.com/reemaabajaj/status/1844454432035291397?ref_src=twsrc%5Etfw">October 10, 2024</a></blockquote>
+    <blockquote class="twitter-tweet">
+        <p lang="en" dir="ltr">Just in case. if someone wants a reality check as to where they stand in terms of income and how many people in India earn more than them!👇<a href="https://t.co/PNwd7NCIuo">https://t.co/PNwd7NCIuo</a><br><br>Credits-<a href="https://twitter.com/alokbishoyi97?ref_src=twsrc%5Etfw">@alokbishoyi97</a></p>
+        &mdash; Reema Bajaj (@reemaabajaj) <a href="https://twitter.com/reemaabajaj/status/1844454432035291397?ref_src=twsrc%5Etfw">October 10, 2024</a>
+    </blockquote>
     
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    
+    <script>
+        // Make blockquotes clickable before Twitter widgets load
+        document.addEventListener('DOMContentLoaded', function() {
+            const tweets = document.querySelectorAll('blockquote.twitter-tweet');
+            console.log('Found', tweets.length, 'tweets');
+            
+            tweets.forEach(function(tweet, index) {
+                const link = tweet.querySelector('a[href*="twitter.com"], a[href*="x.com"]');
+                console.log('Tweet', index + 1, 'link:', link ? link.href : 'No link found');
+                
+                tweet.addEventListener('click', function() {
+                    if (link) {
+                        console.log('Opening:', link.href);
+                        window.open(link.href, '_blank');
+                    }
+                });
+            });
+        });
+        
+        // Debug Twitter widget loading
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const rendered = document.querySelectorAll('.twitter-tweet-rendered');
+                console.log('Rendered tweets:', rendered.length);
+            }, 3000);
+        });
+    </script>
     
     <div class="back-link" style="margin-top: 30px;">
         <a href="../index.html">← Back to home</a>
