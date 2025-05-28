@@ -196,6 +196,22 @@
             color: var(--link-hover-color);
         }
         
+        @media (max-width: 580px) {
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .footer-left {
+                flex: none;
+            }
+            
+            .footer-right {
+                flex-wrap: wrap;
+            }
+        }
+        
         .nav {
             margin: 20px 0 30px 0;
             border-bottom: 1px solid var(--border-color);

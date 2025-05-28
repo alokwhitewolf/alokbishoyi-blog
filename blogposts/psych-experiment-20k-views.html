@@ -207,6 +207,22 @@
             color: var(--link-hover-color);
         }
         
+        @media (max-width: 580px) {
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .footer-left {
+                flex: none;
+            }
+            
+            .footer-right {
+                flex-wrap: wrap;
+            }
+        }
+        
         .nav {
             margin: 20px 0 30px 0;
             border-bottom: 1px solid var(--border-color);
@@ -261,7 +277,7 @@
         <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
     </div>
     
-    <h1>A Psychology Experiment: 20k views in <24 hours</h1>
+    <h1>A Psychology Experiment: 20k views in <24 hours </h1>
     <div class="date">August 2024</div>
     
     <p>Spent 30 minutes building <a href="https://indiaincomecheck.in/">indiaincomecheck.in</a> - type your income, get your percentile. 20k views in <24 hours. Hit top of r/DevelopersIndia.</p>
