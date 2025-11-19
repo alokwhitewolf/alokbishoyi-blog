@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Engineering Antigravity's Browser Automation</title>
+    <style>
+        :root {
+            --bg-color: #fff;
+            --text-color: #000;
+            --text-secondary: #666;
+            --border-color: #ddd;
+            --bg-secondary: #f8f8f8;
+            --bg-tertiary: #f0f0f0;
+            --link-color: #0000ee;
+            --link-hover-color: #0000aa;
+            --link-visited-color: #551a8b;
+            --code-bg: #f5f5f5;
+            --prompt-bg: #eef2ff;
+            --prompt-border: #c7d2fe;
+            --tool-bg: #fff1f2;
+            --tool-border: #fecdd3;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --text-secondary: #a0a0a0;
+                --border-color: #404040;
+                --bg-secondary: #2a2a2a;
+                --bg-tertiary: #333333;
+                --link-color: #74b9ff;
+                --link-hover-color: #a0ceff;
+                --link-visited-color: #dda0dd;
+                --code-bg: #252525;
+                --prompt-bg: #1e293b;
+                --prompt-border: #334155;
+                --tool-bg: #3f1a20;
+                --tool-border: #881337;
+            }
+        }
+        
+        body {
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--text-color);
+            max-width: 580px;
+            margin: 0 auto;
+            padding: 30px 15px;
+            background: var(--bg-color);
+        }
+        
+        h1 {
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        h2 {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 25px 0 10px 0;
+            color: var(--text-color);
+        }
+        
+        h3 {
+            font-size: 13px;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            color: var(--text-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .date {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        code {
+            font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+            font-size: 13px;
+            background: var(--code-bg);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            border: none;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--text-secondary);
+            margin: 30px 0;
+        }
+
+        .prompt-box {
+            background: var(--prompt-bg);
+            border: 1px solid var(--prompt-border);
+            padding: 20px;
+            border-radius: 5px;
+            margin: 25px 0;
+            font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        .tool-box {
+            background: var(--tool-bg);
+            border: 1px solid var(--tool-border);
+            padding: 20px;
+            border-radius: 5px;
+            margin: 25px 0;
+            font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        .nav {
+            margin: 20px 0 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav a:hover {
+            color: var(--text-color);
+        }
+        
+        .nav a.active {
+            color: var(--text-color);
+            border-bottom: 1px solid var(--text-color);
+        }
+        
+        .back-link {
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .back-link a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        
+        .back-link a:hover {
+            color: var(--link-hover-color);
+            text-decoration: underline;
+        }
+        
+        a {
+            color: var(--link-color);
+        }
+        
+        a:visited {
+            color: var(--link-visited-color);
+        }
+        
+        a:hover {
+            color: var(--link-hover-color);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-left {
+            flex: 1;
+        }
+        
+        .footer-right {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .footer-right a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        
+        .footer-right a:visited {
+            color: var(--link-visited-color);
+        }
+        
+        .footer-right a:hover {
+            color: var(--link-hover-color);
+        }
+        
+        @media (max-width: 580px) {
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .footer-left {
+                flex: none;
+            }
+            
+            .footer-right {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1><a href="../index.html" style="color: var(--link-color); text-decoration: none;">Alok Bishoyi</a></h1>
+    
+    <div class="nav">
+        <a href="../index.html">About</a>
+        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'investing')">Investing</a>
+        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')" class="active">Blogs</a>
+        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'press')">Press</a>
+    </div>
+    
+    <div class="back-link">
+        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
+    </div>
+    
+    <h1>Reverse Engineering Antigravity's Browser Automation</h1>
+    <div class="date">November 19, 2025</div>
+    
+    <div class="highlight">
+        <p>Google launched Antigravity IDE on November 18, 2025. It's a fork of VS Code with AI agents built in. The agents can write code, edit files, run terminal commands, and control a browser. I got access to the public preview and tried it out.</p>
+        <p>What struck me was the browser integration. Cursor has something similar—agents that can interact with web pages—but Antigravity's implementation felt different. When you ask it to do something in a browser, a Chrome window opens, the agent navigates and clicks around, and everything gets recorded as a video artifact. I wanted to know how it worked.</p>
+        <p>So I treated it as a black box and worked backwards. </p>
+</div>
+
+    <h2>The Entry Point: The Agent's Tools</h2>
+    <p>The investigation started with the agent itself. I asked it to look at its own system instructions, and it revealed this tool definition:</p>
+
+    <div class="tool-box"><strong>Tool: browser_subagent</strong>
+
+Start a browser subagent to perform actions in the browser with the given task description. The subagent has access to tools for both interacting with web page content (clicking, typing, navigating, etc) and controlling the browser window itself (resizing, etc). <strong>Please make sure to define a clear condition to return on. After the subagent returns, you should read the DOM or capture a screenshot to see what it did.</strong>
+
+Note: All browser interactions are automatically recorded and saved as WebP videos to the artifacts directory. This is the ONLY way you can record a browser session video/animation. <strong>IMPORTANT:</strong> If the subagent returns that the <code>open_browser_url</code> tool failed, there is a browser issue that is out of your control. You MUST ask the user how to proceed and use the <code>suggested_responses</code> tool.
+
+<strong>Parameters</strong>
+
+<ul>
+  <li><b>TaskName</b> (STRING)<br>
+    <i>Description:</i> Name of the task that the browser subagent is performing. This is the identifier that groups the subagent steps together, but should still be a human readable name. This should read like a title, should be properly capitalized and human readable, example: 'Navigating to Example Page'. Replace URLs or non-human-readable expressions like CSS selectors or long text with human-readable terms like 'URL' or 'Page' or 'Submit Button'. Be very sure this task name represents a reasonable chunk of work. It should almost never be the entire user request. This should be the very first argument.
+  </li>
+  <li><b>Task</b> (STRING)<br>
+    <i>Description:</i> A clear, actionable task description for the browser subagent. The subagent is an agent similar to you, with a different set of tools, limited to tools to understand the state of and control the browser. The task you define is the prompt sent to this subagent. Avoid vague instructions, be specific about what to do and when to stop. This should be the second argument.
+  </li>
+  <li><b>RecordingName</b> (STRING)<br>
+    <i>Description:</i> Name of the browser recording that is created with the actions of the subagent. Should be all lowercase with underscores, describing what the recording contains. Maximum 3 words. Example: 'login_flow_demo'
+  </li>
+  <li><b>waitForPreviousTools</b> (BOOLEAN)<br>
+    <i>Description:</i> If true, wait for all previous tool calls from this turn to complete before executing (sequential). If false or omitted, execute this tool immediately (parallel with other tools).
+  </li>
+</ul>
+</div>
+
+    <p>This was the first clue. The tool isn't a direct command like `click()` or `type()`. It's a request to start a <strong>sub-agent</strong>. The main agent delegates the high-level goal ("Go to Google") to this sub-agent, and <em>it</em> handles the details.</p>
+
+    <p>So the question became: <strong>What is this sub-agent?</strong> And where does it live? Armed with the tool definition, I turned to the terminal to find the running processes backing this capability.</p>
+
+    <h2>Chapter 1: The Black Box</h2>
+    <p>My first step was standard reconnaissance. If there's a browser window open, there must be a process running it. I ran <code>ps aux | grep Chrome</code> and found the smoking gun immediately:</p>
+    
+    <pre><code>$ ps aux | grep Chrome
+/Applications/Google Chrome.app/Contents/MacOS/Google Chrome \
+  --remote-debugging-port=9222 \
+  --user-data-dir=/Users/alokbishoyi/.gemini/antigravity-browser-profile \
+  --disable-fre --no-default-browser-check</code></pre>
+    
+    <p>Standard Chrome, but with <strong>remote debugging enabled on port 9222</strong>. This is the Chrome DevTools Protocol (CDP) interface. I verified it was listening:</p>
+    
+    <pre><code>$ curl http://127.0.0.1:9222/json/version
+{"Browser":"Chrome/131.0.6778.0","Protocol-Version":"1.3",...}</code></pre>
+    
+    <p>But who was talking to it? I ran <code>lsof -i :9222</code>:</p>
+    
+    <pre><code>$ lsof -i :9222
+COMMAND   PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+node    38213 alokbishoyi   23u  IPv6 0x...      0t0  TCP *:9222 (LISTEN)</code></pre>
+    
+    <p>A Node.js process. I checked what it was running:</p>
+    
+    <pre><code>$ ps -p 38213 -o command=
+node /Users/alokbishoyi/.npm/_npx/.../node_modules/@agentdeskai/browser-tools-mcp/...</code></pre>
+    
+    <p>An MCP (Model Context Protocol) server package named <code>@agentdeskai/browser-tools-mcp</code>. But the MCP server had to be getting instructions from somewhere. I checked what spawned it:</p>
+    
+    <pre><code>$ ps -ef | grep 38213
+  15440     1 alokbishoyi  ... /Applications/Antigravity.app/.../language_server_macos_arm
+  38213 15440 alokbishoyi  ... node .../browser-tools-mcp</code></pre>
+    
+    <p>PID 15440 was the parent. I scanned for all listening ports:</p>
+    
+    <pre><code>$ lsof -i -P | grep LISTEN | grep 15440
+language_server_macos_arm  15440  alokbishoyi   12u  IPv6  ... TCP *:53410 (LISTEN)
+language_server_macos_arm  15440  alokbishoyi   13u  IPv6  ... TCP *:53412 (LISTEN)
+language_server_macos_arm  15440  alokbishoyi   14u  IPv6  ... TCP *:53413 (LISTEN)
+language_server_macos_arm  15440  alokbishoyi   15u  IPv6  ... TCP *:53422 (LISTEN)</code></pre>
+    
+    <p>Four ports. I checked the process details:</p>
+    
+    <pre><code>$ ps -p 15440 -o command=
+/Applications/Antigravity.app/.../language_server_macos_arm \
+  --extension_server_port 53410 \
+  --enable_lsp \
+  --api_server_url http://jetski-server.corp.goog \
+  --csrf_token [REDACTED]</code></pre>
+    
+    <p>Port 53410 was the extension server—the API endpoint for tool execution. Ports 53412-53413 were standard LSP channels for code intelligence. Port 53422 was an additional service channel. This wasn't just a language server; it was Antigravity's custom coordination server handling both code features and agent orchestration. The command-line flags revealed it connects to Google's internal infrastructure (<code>jetski-server.corp.goog</code>) and uses CSRF tokens for authentication.</p>
+
+    <h2>Chapter 2: Cracking the Binary</h2>
+    <p>The Language Server was a compiled binary, which usually means a dead end. But I decided to try a classic reverse-engineering trick: the <code>strings</code> command.</p>
+    
+    <pre><code>$ strings /Applications/Antigravity.app/.../language_server_macos_arm | grep -i browser | head -20</code></pre>
+    
+    <p>The output was a goldmine. It contained specific Go handlers for every browser action:</p>
+    
+    <pre><code>third_party/jetski/cortex/handlers/browser_subagent_handler.go
+third_party/jetski/cortex/handlers/browser_click_element_handler.go
+third_party/jetski/cortex/handlers/browser_press_key_handler.go
+third_party/jetski/cortex/handlers/browser_resize_window_handler.go
+third_party/jetski/cortex/handlers/browser_scroll_down_handler.go
+third_party/jetski/cortex/handlers/browser_scroll_handler.go
+third_party/jetski/cortex/handlers/browser_scroll_up_handler.go
+third_party/jetski/cortex/handlers/browser_select_option_handler.go
+third_party/jetski/cortex/handlers/capture_browser_screenshot_handler.go
+third_party/jetski/cortex/handlers/read_browser_page_handler.go</code></pre>
+    
+    <p><strong>"Jetski"</strong>. That was the internal codename. It was a collection of granular <em>handlers</em>. The <code>browser_subagent_handler.go</code> seemed to be the brain, while others handled specific motor functions like clicking elements, scrolling, capturing screenshots, and reading page content.</p>
+    
+    <p>I also found references to strongly typed structures:</p>
+    
+    <pre><code>$ strings language_server_macos_arm | grep -i "Browser.*Tool"
+BrowserInputToolConverter
+BrowserScrollDownToolArgs
+BrowserClickPixelToolArgs
+BrowserNavigateToolArgs
+BrowserCaptureScreenshotToolArgs
+BrowserClickElementToolArgs
+BrowserScrollUpToolArgs
+BrowserScrollToolArgs
+BrowserSelectOptionToolArgs
+BrowserResizeWindowToolArgs
+BrowserPressKeyToolArgs</code></pre>
+    
+    <p>This proved that the server maintains a strongly typed internal representation of the browser tools before serializing them for the LLM. Each tool had its own argument structure, suggesting a well-defined API boundary between the language server and the browser automation layer.</p>
+    
+    <p>Deeper analysis revealed the presence of <code>ToolConverter</code> logic within <code>google3/third_party/jetski/cortex/tools/</code>. This implies a translation layer: when the "Jetski" sub-agent decides to click or type, it calls an internal function that passes through these <code>ToolConverter</code>s, which validate the arguments (checking <code>PrerequisiteArgumentNames</code>) and likely handle partial parsing for streaming responses.</p>
+    
+    <h3>The ToolConverter Architecture</h3>
+    <p>Extracting function names from the binary revealed the complete ToolConverter system. I searched for method names containing "ToolConverter" and found the full function signatures:</p>
+    
+    <pre><code>$ strings language_server_macos_arm | grep "cortex/tools/tools" | grep "ToolConverter"
+google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).GetToolDefinition
+google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).ToolCallToCortexStep
+google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).GetPayloadCase
+google3/third_party/jetski/cortex/tools/tools.(*CaptureBrowserScreenshotToolConverter).GetToolDefinition
+google3/third_party/jetski/cortex/tools/tools.(*CaptureBrowserScreenshotToolConverter).ToolCallToCortexStep
+...</code></pre>
+    
+    <p>Each browser tool has its own dedicated converter class implementing three core methods:</p>
+    
+    <pre><code>google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).GetToolDefinition
+google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).ToolCallToCortexStep
+google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).GetPayloadCase</code></pre>
+    
+    <p><strong>GetToolDefinition()</strong> returns the JSON schema that describes the tool to the LLM (parameters, types, descriptions). <strong>ToolCallToCortexStep()</strong> converts the LLM's tool call JSON into an internal Cortex step representation. <strong>GetPayloadCase()</strong> determines which protobuf message type to use for serialization.</p>
+    
+    <p>To find all the ToolConverter class names, I searched for pointer type signatures:</p>
+    
+    <pre><code>$ strings language_server_macos_arm | grep -E "\*tools\..*ToolConverter"
+*tools.BrowserInputToolConverter
+*tools.BrowserGetDomToolConverter
+*tools.BrowserScrollToolConverter
+...</code></pre>
+    
+    <p>I found 19 distinct browser ToolConverters in the binary:</p>
+    
+    <pre><code>*tools.BrowserInputToolConverter
+*tools.BrowserGetDomToolConverter
+*tools.BrowserScrollToolConverter
+*tools.OpenBrowserUrlToolConverter
+*tools.ReadBrowserPageToolConverter
+*tools.BrowserScrollUpToolConverter
+*tools.BrowserPressKeyToolConverter
+*tools.BrowserSubagentToolConverter
+*tools.ListBrowserPagesToolConverter
+*tools.BrowserMoveMouseToolConverter
+*tools.ClickBrowserPixelToolConverter
+*tools.BrowserScrollDownToolConverter
+*tools.BrowserSelectOptionToolConverter
+*tools.BrowserClickElementToolConverter
+*tools.BrowserResizeWindowToolConverter
+*tools.BrowserDragPixelToPixelToolConverter
+*tools.CaptureBrowserScreenshotToolConverter
+*tools.ExecuteBrowserJavaScriptToolConverter
+*tools.CaptureBrowserConsoleLogsToolConverter</code></pre>
+    
+    <p>Each converter also has a corresponding <code>StringConverter</code> for converting internal steps back into text format that the LLM can read in conversation history. I found these by searching for "StringConverter" patterns:</p>
+    
+    <pre><code>$ strings language_server_macos_arm | grep -E "\*chatconverters\..*StringConverter" | grep -i browser
+*chatconverters.BrowserInputStringConverter
+*chatconverters.BrowserGetDomStringConverter
+*chatconverters.BrowserScrollStringConverter
+*chatconverters.OpenBrowserUrlStringConverter</code></pre>
+    
+    <p>These StringConverters handle the reverse transformation—converting internal Cortex steps into natural language text that gets included in the LLM's conversation context:</p>
+    
+    <pre><code>*chatconverters.BrowserInputStringConverter
+*chatconverters.BrowserGetDomStringConverter
+*chatconverters.BrowserScrollStringConverter
+*chatconverters.OpenBrowserUrlStringConverter</code></pre>
+    
+    <p>This dual-layer architecture—ToolConverters for LLM→internal translation and StringConverters for internal→LLM text (for conversation history)—ensures type safety at every boundary. The system validates tool calls before execution, handles partial parsing for streaming responses, and converts completed steps back into natural language that the LLM can read in subsequent turns.</p>
+    
+    <h3>The Complete Browser Tool Arsenal</h3>
+    <p>By extracting strings from the binary and cross-referencing with the MCP server code, I was able to reconstruct the complete set of browser tools available to the sub-agent:</p>
+    
+    <div class="tool-box"><strong>Browser Navigation Tools:</strong>
+    
+<strong>1. browser_navigate (or open_browser_url)</strong>
+- Description: "Open a URL in Jetski Browser to view the page contents of a URL in a rendered format. You can also use this tool to navigate to different URLs or reload the current page."
+- Parameters: url (STRING) - The URL to navigate to
+
+<strong>2. read_browser_page</strong>
+- Description: "Read browser page in Jetski Browser" / "Get the DOM tree of an open page in the Jetski Browser. Returns only interactive elements and text within the current viewport, each with an index for interaction. If an element is not included, it may be outside the viewport or getting filtered for other reasons - refer to the screenshot to confirm. Then try read_browser_page and browser_scroll tools."
+- Parameters: page_id (STRING, optional) - The page ID to read
+
+<strong>Browser Interaction Tools:</strong>
+
+<strong>3. browser_click_element</strong>
+- Description: Click on an element in the browser by its index
+- Parameters: 
+  - element_index (INTEGER) - Index of the element from the DOM tree
+  - page_id (STRING, optional) - The page ID
+
+<strong>4. browser_select_option</strong>
+- Description: Select an option in a dropdown/select element
+- Parameters:
+  - element_index (INTEGER) - Index of the select element
+  - option_value (STRING) - Value to select
+  - page_id (STRING, optional)
+
+<strong>5. browser_press_key</strong>
+- Description: Press a keyboard key
+- Parameters:
+  - key (STRING) - Key to press (e.g., "Enter", "Escape", "ArrowLeft")
+  - page_id (STRING, optional)
+
+<strong>Browser Scrolling Tools:</strong>
+
+<strong>6. browser_scroll</strong>
+- Description: "A tool used to scroll on an element or the page in the browser. For vertical scroll, dy is automatically set to the height of the element/page. For horizontal scroll, dx the width of the element/page. Will output the number of pixels scrolled, indicating 0 pixels if no scrolling occurred."
+- Parameters:
+  - element_index (INTEGER, optional) - Index of element to scroll, or omit for page scroll
+  - direction (STRING, optional) - "up", "down", "left", "right"
+  - dx (INTEGER, optional) - Horizontal scroll distance
+  - dy (INTEGER, optional) - Vertical scroll distance
+  - page_id (STRING, optional)
+
+<strong>7. browser_scroll_up</strong>
+- Description: Scroll up on the page or element
+- Parameters:
+  - element_index (INTEGER, optional)
+  - page_id (STRING, optional)
+
+<strong>8. browser_scroll_down</strong>
+- Description: Scroll down on the page or element
+- Parameters:
+  - element_index (INTEGER, optional)
+  - page_id (STRING, optional)
+
+<strong>Browser Window Management:</strong>
+
+<strong>9. browser_resize_window</strong>
+- Description: Resize the browser window
+- Parameters:
+  - width (INTEGER) - New window width
+  - height (INTEGER) - New window height
+
+<strong>Browser Capture Tools:</strong>
+
+<strong>10. capture_browser_screenshot</strong>
+- Description: Capture a screenshot of the current browser page
+- Parameters:
+  - page_id (STRING, optional) - The page ID to capture
+
+<strong>11. execute_browser_javascript</strong>
+- Description: Execute JavaScript code in the browser context
+- Parameters:
+  - code (STRING) - JavaScript code to execute
+  - page_id (STRING, optional)
+
+<strong>Browser Page Management:</strong>
+
+<strong>12. list_browser_pages</strong>
+- Description: "List all open pages in Jetski Browser and their metadata (page_id, url, title, viewport size, etc.)"
+- Parameters: None</div>
+    
+    <p>I also found references to the internal infrastructure:</p>
+    
+    <pre><code>$ strings language_server_macos_arm | grep -i jetski
+jetski-server.corp.goog
+jetski/cortex/handlers
+jetski/cortex/tools
+google3/third_party/jetski/prompt/template_provider/templates/system_prompts/</code></pre>
+    
+    <p>The binary confirmed the connection to Google's internal "jetski-server" infrastructure that I'd seen in the command-line flags. The presence of <code>template_provider</code> paths suggests that prompts are loaded from template files, explaining the fragmented nature of the prompt strings.</p>
+
+    <h2>Chapter 3: The Soul (The Reconstructed Prompt)</h2>
+    <p>If "Jetski" was the body, what was the soul? I wanted to find the system prompt—the text that tells the AI who it is.</p>
+    
+    <p>I started by searching for common prompt patterns in the binary:</p>
+    
+    <pre><code>$ strings /Applications/Antigravity.app/.../language_server_macos_arm | grep -i "you are" | head -3
+You are an expert AI coding assistant and are pair programming with a USER to solve a coding task. When asked, you focus on outlining the USER's main goals and anticipating likely next steps they will take.</code></pre>
+    
+    <p>Found the main persona. But I needed the specific instructions for the browser agent. I searched for "Jetski Browser":</p>
+    
+    <pre><code>$ strings /Applications/Antigravity.app/.../language_server_macos_arm | grep -C 2 "Jetski Browser"
+*Listed Jetski Browser pages*
+*Took screenshot in Jetski Browser*
+*Clicked on pixel in Jetski Browser*
+*Read browser page in Jetski Browser*
+*Captured DOM tree in Jetski Browser*</code></pre>
+    
+    <p>These looked like internal log messages or "thoughts" the agent emits. Then I found the tool definitions themselves:</p>
+    
+    <pre><code>$ strings /Applications/Antigravity.app/.../language_server_macos_arm | grep "Open a URL in Jetski Browser"
+Open a URL in Jetski Browser to view the page contents of a URL in a rendered format. You can also use this tool to navigate to different URLs or reload the current page.</code></pre>
+    
+    <p>The prompt wasn't a single contiguous block of text I could extract. Instead, it was <strong>fragmented</strong>—compiled as individual string literals scattered throughout the binary. The Language Server likely assembles these pieces dynamically at runtime to construct the full system prompt. This explains why a simple <code>strings</code> dump didn't reveal a neat "You are Jetski..." paragraph.</p>
+    
+    <p>By extracting all relevant strings and cross-referencing with the template provider paths found in the binary (<code>google3/third_party/jetski/prompt/template_provider/templates/system_prompts/</code>), I was able to reconstruct a more complete picture of the system prompt:</p>
+    
+    <div class="prompt-box"><strong>Core Identity:</strong>
+"You are an expert AI coding assistant and are pair programming with a USER to solve a coding task. When asked, you focus on outlining the USER's main goals and anticipating likely next steps they will take."
+
+<strong>Browser Agent Context:</strong>
+You are operating within the "Jetski Browser" context. This is a specialized browser automation environment where you have access to browser-specific tools for interacting with web pages.
+
+<strong>Browser Capabilities:</strong>
+- "Open a URL in Jetski Browser to view the page contents of a URL in a rendered format. You can also use this tool to navigate to different URLs or reload the current page."
+- "Get the DOM tree of an open page in the Jetski Browser. Returns only interactive elements and text within the current viewport, each with an index for interaction. If an element is not included, it may be outside the viewport or getting filtered for other reasons - refer to the screenshot to confirm. Then try read_browser_page and browser_scroll tools."
+- "List all open pages in Jetski Browser and their metadata (page_id, url, title, viewport size, etc.)"
+
+<strong>Tool Usage Guidelines:</strong>
+- "Act as if the tool calls will be executed immediately after your message, and your next response will have access to their results."
+- "Formulate your tool calls using the xml and json format specified for each tool."
+- "The tool arguments should be in a valid json inside of the xml tags."
+- "The tool name should be the xml tag surrounding the tool call."
+- "You are REQUIRED to call a tool in your response."
+
+<strong>Error Handling & Recovery:</strong>
+- "You may have seen the following lint errors as feedback for a previous edit, but they still exist at this point. Please respond accordingly, erring toward explicitness."
+- "There was a problem parsing the tool call. Error Message: %v. Guidance: You are trying to correct your previous tool call error, you must focus on fixing the failed tool call with sequential tool calls and try again. Do not do parallel tool calls and if you are fixing multiple tool calls, do them one at a time. Do not apologize. Retries remaining: %d."
+
+<strong>Browser Interaction Patterns:</strong>
+- When elements are not visible, use browser_scroll tools to bring them into viewport
+- Always capture a screenshot after significant actions to verify state
+- Use read_browser_page to get the current DOM structure before interacting
+- Elements are indexed for interaction - use the index from the DOM tree response
+- If an element is not found, check if it's outside the viewport and scroll first
+
+<strong>Internal Thought Patterns (Log Messages):</strong>
+The agent emits internal thoughts that appear in logs:
+- "*Listed Jetski Browser pages*"
+- "*Took screenshot in Jetski Browser*"
+- "*Clicked on pixel in Jetski Browser*"
+- "*Read browser page in Jetski Browser*"
+- "*Captured DOM tree in Jetski Browser*"
+
+<strong>Task Completion:</strong>
+- Define clear conditions to return on
+- After the subagent returns, read the DOM or capture a screenshot to see what it did
+- All browser interactions are automatically recorded and saved as WebP videos to the artifacts directory</div>
+    
+    <p>This confirmed that the <code>browser_subagent</code> spins up a dedicated sub-agent with a specific persona ("Jetski Browser") constructed from these embedded fragments. The prompt is assembled from template files at runtime, which explains why it appears fragmented in the binary—each component is stored separately and combined dynamically.</p>
+    
+    <h3>Template-Based Prompt System</h3>
+    <p>The binary references suggest the prompt system uses templates stored in:</p>
+    <pre><code>google3/third_party/jetski/prompt/template_provider/templates/system_prompts/
+  - notify_user_tool.tmpl
+  - conversation_logs.tmpl
+  - ephemeral_message.tmpl
+  - mode_descriptions.tmpl
+  - persistent_context.tmpl
+  - task_boundary_tool.tmpl
+  - communication_style.tmpl
+  - file_diffs_artifact.tmpl
+  - knowledge_discovery.tmpl
+  - walkthrough_artifact.tmpl</code></pre>
+    
+    <p>This template-based approach allows Google to update prompts without recompiling the binary, and enables dynamic prompt construction based on context, mode, and available tools.</p>
+
+    <h2>Chapter 4: The Bridge</h2>
+    <p>I had the Brain (Language Server) and the Eyes (Chrome). But how did they talk? The MCP server was the middleman, but it wasn't talking to Chrome directly.</p>
+    
+    <p>I scrutinized the <code>browser-tools-mcp</code> code. Looking at the source in <code>~/.npm/_npx/.../browser-tools-mcp/</code>, I saw it making HTTP requests to a discovery endpoint:</p>
+    
+    <pre><code>$ cat ~/.npm/_npx/.../browser-tools-mcp/src/index.ts | grep -A 5 "discover"
+const discoverPort = async () => {
+  for (let port = 3025; port <= 3035; port++) {
+    const response = await fetch(`http://localhost:${port}/.identity`);
+    if (response.ok) return port;
+  }
+}</code></pre>
+    
+    <p>It was trying ports 3025-3035, looking for a <code>/.identity</code> endpoint. But nothing showed up on those ports in my initial scan. Then I realized: the server might only be running when a browser session is active.</p>
+    
+    <p>I checked the Chrome extensions directory:</p>
+    
+    <pre><code>$ ls -la ~/.gemini/antigravity-browser-profile/Default/Extensions/
+eeijfnjmjelapkebgockoeaadonbchdd/</code></pre>
+    
+    <p>Found an extension with ID <code>eeijfnjmjelapkebgockoeaadonbchdd</code>. I looked at its manifest:</p>
+    
+    <pre><code>$ cat ~/.gemini/antigravity-browser-profile/.../manifest.json
+{
+  "name": "Antigravity Browser Connector",
+  "background": { "service_worker": "service_worker_binary.js" },
+  "permissions": ["debugger", "tabs"]
+}</code></pre>
+    
+    <p>Digging into its <code>service_worker_binary.js</code> (minified, but readable enough), I found the missing link:</p>
+    
+    <pre><code>// De-minified for clarity
+app.post('/navigate', async (req, res) => {
+  const { url } = req.body;
+  await chrome.debugger.sendCommand({ tabId: tabId }, 'Page.navigate', { url });
+  res.json({ success: true });
+});
+
+app.get('/.identity', (req, res) => {
+  res.json({ identity: 'mcp-browser-connector-24x7' });
+});</code></pre>
+    
+    <p>The <strong>Extension runs a local HTTP server</strong> inside the browser. It receives high-level commands (like "navigate") via HTTP and translates them into low-level CDP WebSocket messages. The <code>/.identity</code> endpoint is how the MCP server discovers it.</p>
+
+    <p><strong>Why use an extension instead of talking to CDP directly?</strong> CDP is a low-level protocol that reports network idle states, but doesn't indicate when a page is actually ready for interaction. Running code inside the browser via an extension provides several advantages: it can access the DOM directly, handle complex page state, bypass CORS restrictions, and expose a simpler high-level API ("navigate", "click") rather than requiring direct manipulation of the DevTools protocol.</p>
+
+    <h2>The Synthesis: The 6-Layer Architecture</h2>
+    <p>Putting it all together, here is the complete flow of an Antigravity browser action:</p>
+    
+    <ol>
+        <li><strong>The Trigger</strong>: You ask the agent to "Go to Google".</li>
+        <li><strong>The Coordinator</strong>: The Language Server (Port 53410) spins up the "Jetski" Sub-Agent.</li>
+        <li><strong>The Brain</strong>: The Sub-Agent plans the action using its reconstructed system prompt.</li>
+        <li><strong>The Tool</strong>: It calls <code>navigate()</code>, which goes to the MCP Server.</li>
+        <li><strong>The Bridge</strong>: The MCP Server sends an HTTP POST to the <strong>Extension's Server (Port 3025)</strong>.</li>
+        <li><strong>The Execution</strong>: The Extension translates this to <strong>CDP commands</strong> for Chrome (Port 9222).</li>
+    </ol>
+
+    
+    <h2>Parting Thoughts</h2>
+
+    
+    <p><strong>Previous MCP integrations</strong> followed a simpler pattern: the IDE would spawn an MCP server as a child process, communicate via STDIO, and expose tools directly to the main AI agent. Tools were typically thin wrappers around existing APIs—file operations, terminal commands, or simple HTTP requests. The agent would call these tools directly, and the MCP server would execute them synchronously.</p>
+    
+    <p><strong>Antigravity's approach</strong> It does it a bit differently. First, it uses a <em>sub-agent pattern</em>: instead of exposing browser tools directly to the main agent, it spawns a dedicated "Jetski" sub-agent with its own system prompt and specialized tool set. This sub-agent runs as a separate AI instance, allowing it to maintain browser-specific context and decision-making logic independently from the main IDE agent.</p>
+    
+    <p>Second, the MCP server isn't spawned directly by the IDE—it's orchestrated by the language server, which acts as a coordination layer. The language server manages the sub-agent lifecycle, routes tool calls, and handles the translation between the sub-agent's tool invocations and the actual browser automation layer.</p>
+    
+    <p>Third, instead of using a standard browser automation library like Playwright or Puppeteer directly, Antigravity inserts a Chrome extension as an intermediary. This extension runs an HTTP server inside the browser, providing a high-level API that abstracts away the complexity of Chrome DevTools Protocol while still allowing low-level CDP access when needed.</p>
+    
+    <p>What's interesting here is that MCP servers aren't just tool providers anymore—they're agent coordinators. When you have something complex like browser automation, you don't want your main agent thinking about DOM elements and network timing. You want it focused on code. So Antigravity delegates: the main agent coordinates, the sub-agent handles browser logic, the language server routes, and the extension executes. Each layer does one thing well.</p>
+    
+ 
+    
+    <div class="footer">
+        <div class="footer-left">
+            <p>Views expressed are my own</p>
+        </div>
+        <div class="footer-right">
+            <a href="https://github.com/alokwhitewolf">GitHub</a>
+            <a href="https://x.com/alokbishoyi97">X</a>
+            <a href="https://www.linkedin.com/in/alok-bishoyi/">LinkedIn</a>
+            <span>alokkumarbishoyi97 [at] gmail [dot] com</span>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+        localStorage.setItem('activeTab', 'blogs');
+    </script>
+</body>
+</html>
