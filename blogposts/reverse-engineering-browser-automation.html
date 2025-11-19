@@ -341,7 +341,7 @@ language_server_macos_arm  15440  alokbishoyi   15u  IPv6  ... TCP *:53422 (LIST
   --api_server_url http://jetski-server.corp.goog \
   --csrf_token [REDACTED]</code></pre>
     
-    <p>Port 53410 was the extension server—the API endpoint for tool execution. Ports 53412-53413 were standard LSP channels for code intelligence. Port 53422 was an additional service channel. This wasn't just a language server; it was Antigravity's custom coordination server handling both code features and agent orchestration. The command-line flags revealed it connects to Google's internal infrastructure (<code>jetski-server.corp.goog</code>) and uses CSRF tokens for authentication.</p>
+    <p>Port 53410 was the extension server—the API endpoint for tool execution. Ports 53412-53413 were standard LSP channels for code intelligence. Port 53422 was an additional service channel. This was Antigravity's custom coordination server handling both code features and agent orchestration. The command-line flags revealed it connects to Google's internal infrastructure (<code>jetski-server.corp.goog</code>) and uses CSRF tokens for authentication.</p>
 
     <h2>Chapter 2: Cracking the Binary</h2>
     <p>The Language Server was a compiled binary, which usually means a dead end. But I decided to try a classic reverse-engineering trick: the <code>strings</code> command.</p>
