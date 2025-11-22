@@ -1,0 +1,295 @@
+/* Brutalist Utility Theme */
+:root {
+    /* Core Palette - Raw & Systemic */
+    --bg-root: #ffffff;
+    --bg-surface: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #444444;
+    
+    /* The "Default Web" Colors */
+    --link-color: #0000ee;        /* Standard Blue */
+    --link-visited: #551a8b;      /* Standard Purple */
+    --link-active: #ff0000;       /* Standard Red */
+    
+    /* Borders */
+    --border-thick: 2px solid #000;
+    --border-thin: 1px solid #000;
+    --border-hairline: 1px solid #ccc;
+
+    /* Spacing - Tight & Functional */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 4rem;
+    
+    /* Typography - System Stack */
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+}
+
+/* Reset - Keep it raw */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-root);
+    color: var(--text-primary);
+    font-family: var(--font-stack);
+    font-size: 16px;
+    line-height: 1.4;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-md);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-weight: bold;
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    border-bottom: var(--border-thick);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-md);
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-top: var(--space-md);
+    background: #000;
+    color: #fff;
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-top: var(--space-md);
+}
+
+p {
+    margin-bottom: var(--space-sm);
+    max-width: 70ch;
+}
+
+/* Links - The Old Web Way */
+a {
+    color: var(--link-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:visited {
+    color: var(--link-visited);
+}
+
+a:hover {
+    background-color: #ffff00; /* High-vis highlighter */
+    text-decoration: none;
+}
+
+a:active {
+    color: var(--link-active);
+}
+
+/* Navigation */
+.nav-wrapper {
+    margin-bottom: var(--space-md);
+    border-bottom: var(--border-thin);
+    padding-bottom: var(--space-xs);
+}
+
+.nav-link {
+    background: none;
+    border: var(--border-thin);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    padding: 0.25rem 0.75rem;
+    margin-right: -1px; /* Collapse borders */
+    cursor: pointer;
+    color: #000;
+}
+
+.nav-link:hover {
+    background: #eee;
+}
+
+.nav-link.active {
+    background: #000;
+    color: #fff;
+}
+
+/* Content Structures */
+ul {
+    list-style: square;
+    padding-left: var(--space-md);
+}
+
+li {
+    margin-bottom: 0.25rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Blog List - Table Style */
+.post-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-sm);
+}
+
+.post-row {
+    display: flex;
+    border-bottom: var(--border-hairline);
+    padding: var(--space-sm) 0;
+    align-items: baseline;
+}
+
+.post-row:hover {
+    background-color: #f9f9f9;
+}
+
+.post-date {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.post-title {
+    font-weight: bold;
+    margin-right: var(--space-sm);
+}
+
+.post-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Code & Pre */
+code {
+    font-family: var(--font-mono);
+    background: #eee;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9em;
+}
+
+pre {
+    background: #f4f4f4;
+    border: var(--border-hairline);
+    padding: var(--space-sm);
+    overflow-x: auto;
+    margin: var(--space-sm) 0;
+}
+
+/* Utility Boxes (Brutalist Style) */
+.tool-box, .prompt-box, .insight, .contradiction, .highlight {
+    border: var(--border-thin);
+    padding: var(--space-sm);
+    margin: var(--space-md) 0;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    background: #fff;
+}
+
+.tool-box strong, .prompt-box strong {
+    background: #eee;
+    padding: 0 4px;
+    font-weight: bold;
+}
+
+.highlight {
+    background: #ffffcc; /* Pale yellow note */
+}
+
+/* Image Expansion */
+.img-expandable {
+    cursor: zoom-in;
+    border: var(--border-thin);
+    max-width: 200px; /* Thumbnail size */
+    transition: all 0.2s;
+}
+
+.img-expandable:hover {
+    border: var(--border-thick);
+}
+
+/* Modal for Image */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.95);
+    z-index: 1000;
+    cursor: zoom-out;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-img {
+    max-width: 90%;
+    max-height: 90%;
+    border: var(--border-thick);
+    box-shadow: 10px 10px 0px #000; /* Brutalist shadow */
+}
+
+/* Press Items */
+.press-entry {
+    border: var(--border-thin);
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    gap: var(--space-md);
+}
+
+/* Charts */
+.chart-container {
+    border: var(--border-thin);
+    padding: var(--space-sm);
+    margin: var(--space-md) 0;
+}
+
+/* Footer */
+footer {
+    margin-top: var(--space-lg);
+    border-top: var(--border-thick);
+    padding-top: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.footer-links a {
+    margin-right: var(--space-md);
+}
+
+/* Back Link */
+.back-nav {
+    margin-bottom: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}

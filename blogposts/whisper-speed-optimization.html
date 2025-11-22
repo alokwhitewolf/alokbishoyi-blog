@@ -4,365 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenAI Whisper: The Hidden Cost Optimization Every Developer Should Know</title>
-    <style>
-        :root {
-            --bg-color: #fff;
-            --text-color: #000;
-            --text-secondary: #666;
-            --border-color: #ddd;
-            --bg-secondary: #f8f8f8;
-            --bg-tertiary: #f0f0f0;
-            --bg-quaternary: #fafafa;
-            --link-color: #0000ee;
-            --link-hover-color: #0000aa;
-            --link-visited-color: #551a8b;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a1a;
-                --text-color: #e0e0e0;
-                --text-secondary: #a0a0a0;
-                --border-color: #404040;
-                --bg-secondary: #2a2a2a;
-                --bg-tertiary: #333333;
-                --bg-quaternary: #252525;
-                --link-color: #74b9ff;
-                --link-hover-color: #a0ceff;
-                --link-visited-color: #dda0dd;
-            }
-        }
-        
-        body {
-            font-family: Verdana, Geneva, sans-serif;
-            font-size: 13px;
-            line-height: 1.4;
-            color: var(--text-color);
-            max-width: 580px;
-            margin: 0 auto;
-            padding: 30px 15px;
-            background: var(--bg-color);
-        }
-        
-        h1 {
-            font-size: 18px;
-            font-weight: normal;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-        
-        h2 {
-            font-size: 14px;
-            font-weight: normal;
-            margin: 30px 0 10px 0;
-            color: var(--text-color);
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        
-        .intro {
-            font-style: italic;
-            color: var(--text-secondary);
-            margin-bottom: 25px;
-        }
-        
-        .coords {
-            background: var(--bg-secondary);
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-            font-size: 12px;
-        }
-        
-        .finding {
-            margin: 8px 0;
-            padding-left: 20px;
-            font-size: 12px;
-        }
-        
-        .finding strong {
-            font-weight: normal;
-            text-decoration: underline;
-        }
-        
-        .quote {
-            font-style: italic;
-            color: var(--text-secondary);
-            margin: 15px 0;
-            padding-left: 20px;
-            font-size: 11px;
-        }
-        
-        .section {
-            margin: 25px 0;
-        }
-        
-        .highlight {
-            background: var(--bg-secondary);
-            padding: 15px;
-            margin: 20px 0;
-            border-left: 3px solid var(--text-secondary);
-            font-size: 12px;
-        }
-        
-        .chart {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-        }
-        
-        .chart canvas {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .chart-title {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-        
-        .nav {
-            margin: 20px 0 30px 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        
-        .nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-right: 20px;
-            font-size: 12px;
-            padding: 5px 0;
-        }
-        
-        .nav a:hover {
-            color: var(--text-color);
-        }
-        
-        .nav a.active {
-            color: var(--text-color);
-            border-bottom: 1px solid var(--text-color);
-        }
-        
-        .back-link {
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .back-link a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .back-link a:hover {
-            color: var(--link-hover-color);
-            text-decoration: underline;
-        }
-        
-        a {
-            color: var(--link-color);
-        }
-        
-        a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        .methodology {
-            background: var(--bg-quaternary);
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-        
-        .data-point {
-            font-family: monospace;
-            background: var(--bg-tertiary);
-            padding: 2px 4px;
-            border-radius: 2px;
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-left {
-            flex: 1;
-        }
-        
-        .footer-right {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .footer-right a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .footer-right a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        .footer-right a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        @media (max-width: 580px) {
-            .footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .footer-left {
-                flex: none;
-            }
-            
-            .footer-right {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <h1><a href="../index.html" style="color: var(--link-color); text-decoration: none;">Alok Bishoyi</a></h1>
-    
-    <div class="nav">
-        <a href="../index.html">About</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'investing')">Investing</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')" class="active">Blogs</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'press')">Press</a>
-    </div>
-    
-    <div class="back-link">
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
-    </div>
-    
-    <h1>Whisper's Hidden Optimization</h1>
-    
-    <div class="highlight">
-        <strong>TL;DR:</strong> Running audio at 1.5x speed before sending it to Whisper cuts costs by 33% while only adding 2.4% error rate.
-    </div>
-    
-    <div class="intro">
-        This shouldn't work as well as it does.
-    </div>
-    
-    <p>Most people think of OpenAI's pricing as fixed. $0.006 per minute for Whisper transcription. You send audio, you get charged for the duration, end of story.</p>
-    
-    <p>But there's a lever hidden in plain sight. Whisper charges by duration, not by the amount of speech. Speed up the audio before sending it, and you pay less.</p>
-    
-    <p>George Mandis <a href="https://george.mand.is/2025/06/openai-charges-by-the-minute-so-make-the-minutes-shorter/">noticed this first</a>. I wanted to know exactly how far you could push it.</p>
-    
-    <div class="highlight">
-        <strong>Result:</strong> 1.5x speed reduces costs by 33% with only 2.4% additional word errors. 1.2x gives you 17% savings with just 1.6% errors.
-    </div>
-    
-    <div class="section">
-        <h2>The Test</h2>
-        
-        <p>I took 19 YouTube videos - mostly educational content like 3Blue1Brown and Kurzgesagt - and ran each through Whisper at different speeds. From 1.0x to 2.0x, in 0.1x increments. 209 experiments total.</p>
-        
-        <p>To measure quality, I compared each speed-adjusted transcription against the normal 1.0x version. This gives a clean word error rate without the noise of YouTube's auto-captions.</p>
-        
-        <p>The results were cleaner than expected:</p>
-        
-        <div class="coords">
-            <div class="finding"><strong>1.1x:</strong> 9% savings, 2.2% additional errors</div>
-            <div class="finding"><strong>1.2x:</strong> 17% savings, 2.5% additional errors</div>
-            <div class="finding"><strong>1.3x:</strong> 23% savings, 2.3% additional errors</div>
-            <div class="finding"><strong>1.4x:</strong> 29% savings, 2.8% additional errors</div>
-            <div class="finding"><strong>1.5x:</strong> 33% savings, 2.4% additional errors</div>
+    <div class="container">
+        <div class="back-nav">
+            <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Index / Writings</a>
         </div>
-        
-        <p>Then it gets worse fast. 2.0x gives you 50% savings but 8.1% errors on average, with some videos hitting 20%+ error rates.</p>
+
+        <header>
+            <h1>Whisper's Hidden Optimization</h1>
+            <span class="date">June 2025</span>
+        </header>
+
+        <article class="stagger-1">
+            <div class="highlight">
+                <strong>TL;DR:</strong> Running audio at 1.5x speed before sending it to Whisper cuts costs by 33% while only adding 2.4% error rate.
+            </div>
+
+            <p class="quote">This shouldn't work as well as it does.</p>
+
+            <p>Most people think of OpenAI's pricing as fixed. $0.006 per minute for Whisper transcription. You send audio, you get charged for the duration, end of story.</p>
+
+            <p>But there's a lever hidden in plain sight. Whisper charges by duration, not by the amount of speech. Speed up the audio before sending it, and you pay less.</p>
+
+            <p>George Mandis <a href="https://george.mand.is/2025/06/openai-charges-by-the-minute-so-make-the-minutes-shorter/">noticed this first</a>. I wanted to know exactly how far you could push it.</p>
+
+            <div class="insight">
+                <strong>Result:</strong> 1.5x speed reduces costs by 33% with only 2.4% additional word errors. 1.2x gives you 17% savings with just 1.6% errors.
+            </div>
+
+            <h2>The Test</h2>
+
+            <p>I took 19 YouTube videos—mostly educational content like 3Blue1Brown and Kurzgesagt—and ran each through Whisper at different speeds. From 1.0x to 2.0x, in 0.1x increments. 209 experiments total.</p>
+
+            <p>To measure quality, I compared each speed-adjusted transcription against the normal 1.0x version. This gives a clean word error rate without the noise of YouTube's auto-captions.</p>
+
+            <p>The results were cleaner than expected:</p>
+
+            <div class="coords">
+                <div class="finding"><strong>1.1x:</strong> 9% savings, 2.2% additional errors</div>
+                <div class="finding"><strong>1.2x:</strong> 17% savings, 2.5% additional errors</div>
+                <div class="finding"><strong>1.3x:</strong> 23% savings, 2.3% additional errors</div>
+                <div class="finding"><strong>1.4x:</strong> 29% savings, 2.8% additional errors</div>
+                <div class="finding"><strong>1.5x:</strong> 33% savings, 2.4% additional errors</div>
+            </div>
+
+            <p>Then it gets worse fast. 2.0x gives you 50% savings but 8.1% errors on average, with some videos hitting 20%+ error rates.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">Quality Impact Across All Speeds</div>
+                <canvas id="tradeoffChart" width="500" height="300"></canvas>
+            </div>
+
+            <h2>Why It Works</h2>
+
+            <p>Whisper was trained on audio at different speeds. Not intentionally, but because the internet is full of sped-up audio. Podcasts at 1.25x, YouTube videos at 1.5x, compressed conference calls.</p>
+
+            <p>So when you send it 1.5x audio, it's not really outside the training distribution. The model has seen this before.</p>
+
+            <p>The cliff at 2.0x is where you leave familiar territory. Beyond that, you're asking the model to handle speeds it rarely encountered during training.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">Cost vs Quality Tradeoff</div>
+                <canvas id="qualityChart" width="500" height="300"></canvas>
+            </div>
+
+            <h2>How to Use This</h2>
+
+            <p>Before sending audio to Whisper, speed it up with FFmpeg:</p>
+
+            <div class="tool-box">
+                <code>ffmpeg -i input.wav -af "atempo=1.5" output.wav</code>
+            </div>
+
+            <p>That's it. The <code>atempo</code> filter preserves pitch while changing speed, so voices don't sound like chipmunks.</p>
+
+            <p>The data is there. Pick whatever tradeoff makes sense for your use case.</p>
+
+            <h2>What This Means</h2>
+
+            <p>Most optimizations involve complex tradeoffs. Better caching, smarter algorithms, more efficient data structures. This one is just a single parameter change.</p>
+
+            <p>It works because pricing models sometimes have edges you can exploit. Whisper charges by time, not by the amount of work. So you can do the same work faster and pay less.</p>
+
+            <p>The surprising part is how robust the model is to this manipulation. 1.5x speed should break things more than it does. But machine learning models trained on internet data are apparently quite tolerant of internet-speed audio.</p>
+
+            <div class="methodology">
+                <strong>Dataset:</strong> 209 experiments across 19 educational videos. Complete analysis and source code available on <a href="https://github.com/alokwhitewolf/whisper-speed-optimizer">GitHub</a>.
+            </div>
+        </article>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/alokwhitewolf">GITHUB</a>
+                <a href="https://x.com/alokbishoyi97">TWITTER</a>
+                <a href="https://www.linkedin.com/in/alok-bishoyi/">LINKEDIN</a>
+                <a href="mailto:alokkumarbishoyi97@gmail.com">EMAIL</a>
+            </div>
+            <br>
+            <div>&copy; 2025. NO TRACKING.</div>
+        </footer>
     </div>
-    
-    <div class="chart">
-        <div class="chart-title">Quality Impact Across All Speeds</div>
-        <canvas id="tradeoffChart" width="500" height="300"></canvas>
-    </div>
-    
-    <div class="section">
-        <h2>Why It Works</h2>
-        
-        <p>Whisper was trained on audio at different speeds. Not intentionally, but because the internet is full of sped-up audio. Podcasts at 1.25x, YouTube videos at 1.5x, compressed conference calls.</p>
-        
-        <p>So when you send it 1.5x audio, it's not really outside the training distribution. The model has seen this before.</p>
-        
-        <p>The cliff at 2.0x is where you leave familiar territory. Beyond that, you're asking the model to handle speeds it rarely encountered during training.</p>
-    </div>
-    
-    <div class="chart">
-        <div class="chart-title">Cost vs Quality Tradeoff</div>
-        <canvas id="qualityChart" width="500" height="300"></canvas>
-    </div>
-    
-    <div class="section">
-        <h2>How to Use This</h2>
-        
-        <p>Before sending audio to Whisper, speed it up with FFmpeg:</p>
-        
-        <div class="highlight">
-            <code>ffmpeg -i input.wav -af "atempo=1.5" output.wav</code>
-        </div>
-        
-        <p>That's it. The <code>atempo</code> filter preserves pitch while changing speed, so voices don't sound like chipmunks.</p>
-        
-        <p>The data is there. Pick whatever tradeoff makes sense for your use case.</p>
-    </div>
-    
-    <div class="section">
-        <h2>What This Means</h2>
-        
-        <p>Most optimizations involve complex tradeoffs. Better caching, smarter algorithms, more efficient data structures. This one is just a single parameter change.</p>
-        
-        <p>It works because pricing models sometimes have edges you can exploit. Whisper charges by time, not by the amount of work. So you can do the same work faster and pay less.</p>
-        
-        <p>The surprising part is how robust the model is to this manipulation. 1.5x speed should break things more than it does. But machine learning models trained on internet data are apparently quite tolerant of internet-speed audio.</p>
-    </div>
-    
-    <div class="methodology">
-        <strong>Dataset:</strong> 209 experiments across 19 educational videos. Complete analysis and source code available on <a href="https://github.com/alokwhitewolf/whisper-speed-optimizer">GitHub</a>.
-    </div>
-    
-    <div class="back-link" style="margin-top: 30px;">
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
-    </div>
-    
-    <div class="footer">
-        <div class="footer-left">
-            <p>Views expressed are my own</p>
-        </div>
-        <div class="footer-right">
-            <a href="https://github.com/alokwhitewolf">GitHub</a>
-            <a href="https://x.com/alokbishoyi97">X</a>
-            <a href="https://www.linkedin.com/in/alok-bishoyi/">LinkedIn</a>
-            <span>alokkumarbishoyi97 [at] gmail [dot] com</span>
-        </div>
-    </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Theme colors
+        const ACCENT_COLOR = '#000000'; /* Brutalist black */
+        const TEXT_SECONDARY = '#444444';
+        const GRID_COLOR = '#cccccc';
+
+        Chart.defaults.color = TEXT_SECONDARY;
+        Chart.defaults.borderColor = GRID_COLOR;
+        Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+
         // Cost vs Quality Tradeoff Chart
         const tradeoffCtx = document.getElementById('tradeoffChart').getContext('2d');
         const tradeoffChart = new Chart(tradeoffCtx, {
@@ -372,11 +130,11 @@
                 datasets: [{
                     label: 'Average WER Increase (%)',
                     data: [0, 2.2, 2.5, 2.3, 2.8, 2.4, 3.4, 3.1, 4.0, 3.8, 8.1],
-                    borderColor: '#0000ee',
-                    backgroundColor: 'rgba(0,0,238,0.1)',
-                    tension: 0.3,
+                    borderColor: ACCENT_COLOR,
+                    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                    tension: 0, /* Brutalist straight lines */
                     pointRadius: 4,
-                    pointBackgroundColor: '#0000aa'
+                    pointBackgroundColor: ACCENT_COLOR
                 }]
             },
             options: {
@@ -390,15 +148,25 @@
                     x: {
                         title: {
                             display: true,
-                            text: 'Speed Multiplier'
+                            text: 'Speed Multiplier',
+                            color: TEXT_SECONDARY
+                        },
+                        grid: {
+                            color: GRID_COLOR,
+                            borderDash: [2, 2] /* Dotted grid */
                         }
                     },
                     y: {
                         title: {
                             display: true,
-                            text: 'Quality Loss (%)'
+                            text: 'Quality Loss (%)',
+                            color: TEXT_SECONDARY
                         },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            color: GRID_COLOR,
+                            borderDash: [2, 2]
+                        }
                     }
                 }
             }
@@ -423,9 +191,10 @@
                         {x: 47, y: 3.8},  // 1.9x
                         {x: 50, y: 8.1}   // 2.0x
                     ],
-                    backgroundColor: '#0000aa',
-                    borderColor: '#0000aa',
-                    pointRadius: 5
+                    backgroundColor: ACCENT_COLOR,
+                    borderColor: ACCENT_COLOR,
+                    pointRadius: 5,
+                    pointStyle: 'rect' /* Brutalist squares */
                 }]
             },
             options: {
@@ -439,40 +208,29 @@
                     x: {
                         title: {
                             display: true,
-                            text: 'Cost Savings (%)'
+                            text: 'Cost Savings (%)',
+                            color: TEXT_SECONDARY
+                        },
+                        grid: {
+                            color: GRID_COLOR,
+                            borderDash: [2, 2]
                         }
                     },
                     y: {
                         title: {
                             display: true,
-                            text: 'Quality Loss (%)'
+                            text: 'Quality Loss (%)',
+                            color: TEXT_SECONDARY
                         },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            color: GRID_COLOR,
+                            borderDash: [2, 2]
+                        }
                     }
                 }
             }
         });
-        
-        // Dark mode support for charts
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            Chart.defaults.color = '#e0e0e0';
-            Chart.defaults.borderColor = '#404040';
-            
-            tradeoffChart.data.datasets[0].borderColor = '#74b9ff';
-            tradeoffChart.data.datasets[0].backgroundColor = 'rgba(116,185,255,0.1)';
-            tradeoffChart.data.datasets[0].pointBackgroundColor = '#a0ceff';
-            tradeoffChart.update();
-            
-            qualityChart.data.datasets[0].backgroundColor = '#a0ceff';
-            qualityChart.data.datasets[0].borderColor = '#a0ceff';
-            qualityChart.update();
-        }
-    </script>
-    
-    <script>
-        // Set active tab to blogs when this page loads
-        // This ensures that browser back button returns to blogs tab
-        localStorage.setItem('activeTab', 'blogs');
     </script>
 </body>
 </html>

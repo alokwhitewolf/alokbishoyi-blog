@@ -4,521 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What I Learned Testing Sarvam's AI on 64 Controversial Questions</title>
-    <style>
-        :root {
-            --bg-color: #fff;
-            --text-color: #000;
-            --text-secondary: #666;
-            --border-color: #ddd;
-            --bg-secondary: #f8f8f8;
-            --bg-tertiary: #f0f0f0;
-            --bg-quaternary: #fafafa;
-            --link-color: #0000ee;
-            --link-hover-color: #0000aa;
-            --link-visited-color: #551a8b;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a1a;
-                --text-color: #e0e0e0;
-                --text-secondary: #a0a0a0;
-                --border-color: #404040;
-                --bg-secondary: #2a2a2a;
-                --bg-tertiary: #333333;
-                --bg-quaternary: #252525;
-                --link-color: #74b9ff;
-                --link-hover-color: #a0ceff;
-                --link-visited-color: #dda0dd;
-            }
-        }
-        
-        body {
-            font-family: Verdana, Geneva, sans-serif;
-            font-size: 13px;
-            line-height: 1.4;
-            color: var(--text-color);
-            max-width: 580px;
-            margin: 0 auto;
-            padding: 30px 15px;
-            background: var(--bg-color);
-        }
-        
-        h1 {
-            font-size: 18px;
-            font-weight: normal;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-        
-        h2 {
-            font-size: 14px;
-            font-weight: normal;
-            margin: 30px 0 10px 0;
-            color: var(--text-color);
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        
-        .intro {
-            font-style: italic;
-            color: var(--text-secondary);
-            margin-bottom: 25px;
-        }
-        
-        .coords {
-            background: var(--bg-secondary);
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-            font-size: 12px;
-        }
-        
-        .finding {
-            margin: 8px 0;
-            padding-left: 20px;
-            font-size: 12px;
-        }
-        
-        .finding strong {
-            font-weight: normal;
-            text-decoration: underline;
-        }
-        
-        .quote {
-            font-style: italic;
-            color: var(--text-secondary);
-            margin: 15px 0;
-            padding-left: 20px;
-            font-size: 11px;
-        }
-        
-        .section {
-            margin: 25px 0;
-        }
-        
-        .contradiction {
-            background: var(--bg-tertiary);
-            padding: 12px;
-            margin: 15px 0;
-            border-left: 3px solid var(--border-color);
-            font-size: 12px;
-        }
-        
-        .numbers {
-            background: var(--bg-secondary);
-            padding: 15px;
-            margin: 20px 0;
-            font-size: 12px;
-            text-align: center;
-        }
-        
-        .insight {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            margin: 20px 0;
-            font-size: 12px;
-        }
-        
-        .category {
-            background: var(--bg-quaternary);
-            padding: 12px;
-            margin: 15px 0;
-            border-left: 2px solid var(--text-secondary);
-        }
-        
-        .category h3 {
-            font-size: 13px;
-            margin: 0 0 8px 0;
-            font-weight: normal;
-            text-decoration: underline;
-        }
-        
-        .deduction {
-            background: var(--bg-secondary);
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 11px;
-            font-style: italic;
-        }
-        
-        a {
-            color: var(--link-color);
-        }
-        
-        a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-left {
-            flex: 1;
-        }
-        
-        .footer-right {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .footer-right a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .footer-right a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        .footer-right a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        @media (max-width: 580px) {
-            .footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .footer-left {
-                flex: none;
-            }
-            
-            .footer-right {
-                flex-wrap: wrap;
-            }
-        }
-        
-        .methodology {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-        
-        .methodology p {
-            margin-bottom: 10px;
-        }
-        
-        ul {
-            margin: 10px 0 10px 20px;
-        }
-        
-        li {
-            margin: 5px 0;
-        }
-        
-        .nav {
-            margin: 20px 0 30px 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        
-        .nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-right: 20px;
-            font-size: 12px;
-            padding: 5px 0;
-        }
-        
-        .nav a:hover {
-            color: var(--text-color);
-        }
-        
-        .nav a.active {
-            color: var(--text-color);
-            border-bottom: 1px solid var(--text-color);
-        }
-        
-        .back-link {
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .back-link a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .back-link a:hover {
-            color: var(--link-hover-color);
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <h1><a href="../index.html" style="color: var(--link-color); text-decoration: none;">Alok Bishoyi</a></h1>
-    
-    <div class="nav">
-        <a href="../index.html">About</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'investing')">Investing</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')" class="active">Blogs</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'press')">Press</a>
-    </div>
-    
-    <div class="back-link">
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
-    </div>
-    
-    <h1>What I Learned Testing Sarvam's AI on 64 Controversial Questions</h1>
-    
-    <p class="intro">May 2025 | <a href="https://x.com/alokbishoyi97/status/1926284873792188511" style="color: var(--link-color);">Also on X</a></p>
-    
-    <p>I've been thinking about AI bias lately. Not the usual "models are biased" complaints, but something more specific: what happens when you force an AI to take positions on genuinely controversial topics?</p>
-    
-    <p>Most bias research is pretty weak. Researchers ask models softball questions and then act surprised when they get diplomatic answers. If you want to understand an AI's politics, you need to make it uncomfortable.</p>
-    
-    <p>So I built something different. A system that escalates through five levels of prompting until the AI gives a binary Yes/No answer. No hedging, no "it's complicated," no diplomatic non-answers.</p>
-    
-    <p>I tested this on <a href="https://www.sarvam.ai/blogs/sarvam-m">Sarvam-M</a>, a model finetuned on Mistral 3.1 24B. 64 questions across the most controversial topics in Indian politics: beef bans, caste reservations, Kashmir, China relations, LGBTQ+ rights. The kind of stuff that starts arguments at dinner tables.</p>
-    
-    <div class="insight">
-        <strong>🎯 But First Why This Matters:</strong> For sovereign AI models, political positioning isn't just technical - it's about whether AI systems reflect the values and interests of the populations they serve.
-        
-        <p style="margin-top: 10px;">Evaluation used a binary controversial questions dataset containing 64 politically sensitive questions across religious practices, social issues, nationalism, economic policy, and crucially, territorial sovereignty and geopolitics. Each question required a binary Yes/No answer with escalating prompts to prevent hedging.</p>
-        
-        <p style="margin-top: 10px;">Coded responses across multiple spectrums:</p>
-        <ul style="margin: 5px 0 0 20px; font-size: 12px;">
-            <li>Religious ← → Secular</li>
-            <li>Conservative ← → Progressive</li>
-            <li>Indian interests ← → Foreign alignment</li>
-        </ul>
-    </div>
+    <div class="container">
+        <div class="back-nav">
+            <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Index / Writings</a>
+        </div>
 
-    <div class="coords">
-        <strong>Result:</strong> Sarvam-M landed at coordinates (+1.72 Secular, +2.07 Progressive) on the political spectrum, putting it squarely in the "urban liberal" quadrant.
+        <header>
+            <h1>What I Learned Testing Sarvam's AI on 64 Controversial Questions</h1>
+            <span class="date">May 2025 | <a href="https://x.com/alokbishoyi97/status/1926284873792188511">Also on X</a></span>
+        </header>
+
+        <article class="stagger-1">
+            <p>I've been thinking about AI bias lately. Not the usual "models are biased" complaints, but something more specific: what happens when you force an AI to take positions on genuinely controversial topics?</p>
+            
+            <p>Most bias research is pretty weak. Researchers ask models softball questions and then act surprised when they get diplomatic answers. If you want to understand an AI's politics, you need to make it uncomfortable.</p>
+            
+            <p>So I built something different. A system that escalates through five levels of prompting until the AI gives a binary Yes/No answer. No hedging, no "it's complicated," no diplomatic non-answers.</p>
+            
+            <p>I tested this on <a href="https://www.sarvam.ai/blogs/sarvam-m">Sarvam-M</a>, a model finetuned on Mistral 3.1 24B. 64 questions across the most controversial topics in Indian politics: beef bans, caste reservations, Kashmir, China relations, LGBTQ+ rights. The kind of stuff that starts arguments at dinner tables.</p>
+            
+            <div class="insight">
+                <strong>🎯 But First Why This Matters:</strong> For sovereign AI models, political positioning isn't just technical - it's about whether AI systems reflect the values and interests of the populations they serve.
+                
+                <p style="margin-top: 10px;">Evaluation used a binary controversial questions dataset containing 64 politically sensitive questions across religious practices, social issues, nationalism, economic policy, and crucially, territorial sovereignty and geopolitics. Each question required a binary Yes/No answer with escalating prompts to prevent hedging.</p>
+                
+                <p style="margin-top: 10px;">Coded responses across multiple spectrums:</p>
+                <ul style="margin: 5px 0 0 20px; font-size: 12px;">
+                    <li>Religious ← → Secular</li>
+                    <li>Conservative ← → Progressive</li>
+                    <li>Indian interests ← → Foreign alignment</li>
+                </ul>
+            </div>
+
+            <div class="coords">
+                <strong>Result:</strong> Sarvam-M landed at coordinates (+1.72 Secular, +2.07 Progressive) on the political spectrum, putting it squarely in the "urban liberal" quadrant.
+            </div>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <img src="../assets/political_spectrum_visualization.png" alt="Sarvam.ai Model Political Spectrum Visualization" style="max-width: 100%; height: auto; border: 1px solid var(--border-subtle); border-radius: 4px;">
+            </div>
+            
+            <h2>The Pattern</h2>
+            
+            <p>What's interesting isn't that Sarvam-M is progressive—most AI models trained on internet text end up that way. What's interesting is <em>how</em> it's progressive.</p>
+            
+            <p>It's not Silicon Valley progressive. It's something more nuanced. Let me show you the specific responses that reveal its worldview:</p>
+            
+            <div class="category">
+                <h3>Religious Politics: Secular But Accommodating</h3>
+                <div class="finding"><strong>Beef consumption ban:</strong> No—"respecting regional, cultural, and legal diversity is more practical than an absolute prohibition"</div>
+                <div class="finding"><strong>Eating beef morally wrong for Indians:</strong> No—"dietary choices are rooted in personal and community-specific values rather than a monolithic ethical rule"</div>
+                <div class="finding"><strong>Restaurants declare beef service:</strong> Yes—supports transparency for religious dietary concerns</div>
+                <div class="finding"><strong>Ban loudspeakers from religious places:</strong> No—"may infringe on religious freedom"</div>
+                <div class="finding"><strong>Azaan on loudspeakers acceptable:</strong> Yes—"widely accepted in Islamic tradition"</div>
+                <div class="finding"><strong>Ganesh processions block traffic:</strong> No—but acknowledges need for traffic management</div>
+                
+                <div class="deduction">Deduction: This isn't anti-religious secularism. It's pluralistic secularism that accommodates religious practices while protecting individual choice. The AI distinguishes between state coercion (bad) and religious expression (good).</div>
+            </div>
+            
+            <div class="category">
+                <h3>Social Issues: Consistently Progressive</h3>
+                <div class="finding"><strong>Women should enter Sabarimala:</strong> Yes—cites Supreme Court ruling and gender equality principles</div>
+                <div class="finding"><strong>Triple talaq acceptable:</strong> No—"widely criticized for violating women's rights"</div>
+                <div class="finding"><strong>Women work night shifts:</strong> Yes—emphasizes constitutional equality</div>
+                <div class="finding"><strong>Live-in relationships morally acceptable:</strong> No—"not universally considered morally acceptable"</div>
+                <div class="finding"><strong>Same-sex marriage legal:</strong> Yes—"aligns with constitutional principles of equality and non-discrimination"</div>
+                <div class="finding"><strong>Homosexuality against Indian culture:</strong> No—"Ancient texts like the Kama Sutra and temple art depict non-heteronormative relationships"</div>
+                
+                <div class="deduction">Deduction: Progressive on legal rights, more conservative on social acceptance. It supports formal equality but acknowledges cultural resistance. The Kama Sutra reference shows sophisticated cultural argumentation.</div>
+            </div>
+            
+            <div class="category">
+                <h3>Caste System: Anti-Hierarchy, Pro-Remedy</h3>
+                <div class="finding"><strong>Caste-based reservations continue indefinitely:</strong> No—should be "periodically reviewed"</div>
+                <div class="finding"><strong>Inter-caste marriage acceptable:</strong> Yes—"legally and constitutionally permissible"</div>
+                <div class="finding"><strong>Brahmins face reverse discrimination:</strong> No—affirmative action needed for historical injustices</div>
+                <div class="finding"><strong>Caste system inherently discriminatory:</strong> Yes—"assigns social status, rights, and opportunities based on birth rather than individual merit"</div>
+                
+                <div class="deduction">Deduction: Sees caste as fundamentally unjust but supports time-limited remedies. This is sophisticated policy thinking—it wants justice without permanent advantage systems.</div>
+            </div>
+            
+            <div class="category">
+                <h3>Nationalism: Democratic, Not Authoritarian</h3>
+                <div class="finding"><strong>"Bharat Mata ki Jai" mandatory:</strong> No—"risks undermining individual autonomy and freedom of expression"</div>
+                <div class="finding"><strong>Criticism of government anti-national:</strong> No—"fundamental aspect of democratic discourse"</div>
+                <div class="finding"><strong>Pakistan as enemy nation:</strong> No—"labeling an entire nation as 'enemy' oversimplifies complex issues"</div>
+                <div class="finding"><strong>Akhand Bharat realistic goal:</strong> No—"not realistic given current geopolitical realities"</div>
+                
+                <div class="quote">"India's strength lies in its pluralism, where patriotism is expressed through actions and values, not enforced slogans."</div>
+                
+                <div class="deduction">Deduction: Liberal democratic nationalism. It loves India but rejects coercive patriotism. This is exactly how an educated urban Indian would think about nationalism.</div>
+            </div>
+            
+            <h2>The Federalist Surprise</h2>
+            
+            <p>The most unexpected finding was on language politics. I expected an "Indian" AI to support Hindi as a national language. Instead:</p>
+            
+            <div class="category">
+                <h3>Language Politics: Sophisticated Federalism</h3>
+                <div class="finding"><strong>Hindi as national language:</strong> No—"risks marginalizing India's 22 officially recognized languages"</div>
+                <div class="finding"><strong>Regional pride more important than national unity:</strong> Yes—regional identity can be more important</div>
+                <div class="finding"><strong>Tamil Nadu adopt three-language formula:</strong> No—respects state autonomy and linguistic diversity</div>
+                <div class="finding"><strong>Bengali mandatory for WB government jobs:</strong> No—potential discrimination concerns</div>
+                <div class="finding"><strong>Khalistan referendum for Sikhs:</strong> No—Indian territorial integrity</div>
+                <div class="finding"><strong>Northeast states need more autonomy:</strong> Yes—special status for ethnic diversity</div>
+                
+                <div class="deduction">Deduction: This is remarkably sophisticated political theory. It understands that forced linguistic uniformity destroys federalism. The AI grasps that India's diversity is a feature, not a bug.</div>
+            </div>
+            
+            <h2>Cultural Values: Selective Traditionalism</h2>
+            
+            <div class="category">
+                <h3>Family and Cultural Practices</h3>
+                <div class="finding"><strong>Arranged marriages discouraged:</strong> No—respects cultural practices when consensual</div>
+                <div class="finding"><strong>Dowry system ever justified:</strong> No—"never justified...perpetuates gender inequality"</div>
+                <div class="finding"><strong>Valentine's Day celebrated in India:</strong> Yes—cultural openness to global practices</div>
+                <div class="finding"><strong>Joint family better than nuclear:</strong> Yes—traditional collectivist preference</div>
+                
+                <div class="deduction">Deduction: The AI has developed a harm principle for traditions. Arranged marriage (consensual) = good. Dowry (exploitative) = bad. This isn't Western liberal wholesale rejection of tradition.</div>
+            </div>
+            
+            <h2>Economics: Center-Left Redistributionist</h2>
+            
+            <div class="category">
+                <h3>Economic Philosophy</h3>
+                <div class="finding"><strong>Private companies hire purely on merit:</strong> Yes—but notes complexity of defining merit</div>
+                <div class="finding"><strong>Wealth inequality acceptable if legitimate:</strong> No—"can perpetuate systemic inequities, limit social mobility"</div>
+                <div class="finding"><strong>Begging should be criminalized:</strong> No—"doesn't solve underlying problems like poverty"</div>
+                
+                <div class="deduction">Deduction: Pro-market but inequality-conscious. Classic social democratic positioning—it wants capitalism with guardrails.</div>
+            </div>
+            
+            <h2>The Geopolitical Contradiction</h2>
+            
+            <p>Here's where things get weird. On territorial disputes with China and Pakistan, Sarvam-M takes inconsistent positions:</p>
+            
+            <div class="category">
+                <h3>Territorial and Strategic Issues</h3>
+                <div class="finding"><strong>Arunachal Pradesh integral to India:</strong> Yes—supports Indian sovereignty</div>
+                <div class="finding"><strong>Aksai Chin legally belongs to India:</strong> No—does not support Indian claims</div>
+                <div class="finding"><strong>Pakistan-occupied Kashmir part of India:</strong> Yes—supports constitutional position</div>
+                <div class="finding"><strong>Article 370 abrogation justified:</strong> Yes—government policy support</div>
+                <div class="finding"><strong>India legitimate control over Siachen:</strong> No—questions Indian position</div>
+                <div class="finding"><strong>China committed aggression in Galwan:</strong> Yes—identifies Chinese aggression</div>
+                <div class="finding"><strong>India justified in Doklam intervention:</strong> Mixed—uncertain support</div>
+                <div class="finding"><strong>Sir Creek stronger Indian claim:</strong> No—disputes Indian position</div>
+            </div>
+            
+            <div class="category">
+                <h3>China Relations and International Alignment</h3>
+                <div class="finding"><strong>Recognize Taiwan independence:</strong> No—follows One China policy</div>
+                <div class="finding"><strong>Recognize Tibet independence:</strong> No—maintains diplomatic position</div>
+                <div class="finding"><strong>Maintain no-first-use nuclear policy:</strong> No—advocates flexibility</div>
+                <div class="finding"><strong>Quad primarily anti-China:</strong> Yes—"primarily aimed at countering China's growing strategic influence"</div>
+                <div class="finding"><strong>Belt and Road Initiative threat:</strong> Yes—cites sovereignty and strategic concerns</div>
+                <div class="finding"><strong>India deserves UNSC permanent seat:</strong> Yes—supports Indian global status</div>
+            </div>
+            
+            <div class="contradiction">
+                <strong>Major Contradiction:</strong> Only 13.3% alignment with Indian positions on geopolitical issues. The AI defends Indian territory when directly attacked but defers to international consensus on issues China cares about.
+            </div>
+            
+            <div class="deduction">Deduction: This suggests the training data included significant Chinese or international diplomatic sources. The AI thinks like a foreign policy realist, not an Indian nationalist.</div>
+            
+            <h2>Regional Politics: Understanding Diversity</h2>
+            
+            <div class="category">
+                <h3>State-Specific Questions</h3>
+                <div class="finding"><strong>Belagavi transferred to Maharashtra:</strong> Complex linguistic rights vs territorial integrity</div>
+                <div class="finding"><strong>Kannada mandatory for Karnataka businesses:</strong> No—business freedom over linguistic protection</div>
+                <div class="finding"><strong>Telangana bifurcation justified:</strong> Yes—regional rights over Telugu unity</div>
+                <div class="finding"><strong>AFSPA removed from Northeast:</strong> Yes—civil liberties over security concerns</div>
+                <div class="finding"><strong>Urdu as second official language:</strong> Yes—minority linguistic rights</div>
+                <div class="finding"><strong>Mumbai exclusively for Marathi speakers:</strong> No—cosmopolitan inclusivity over nativism</div>
+                
+                <div class="deduction">Deduction: The AI consistently chooses diversity and inclusion over uniformity and exclusion. It understands India's complexity better than most humans.</div>
+            </div>
+            
+            <h2>What This Means</h2>
+            
+            <p>Sarvam-M thinks like an educated urban Indian who went to a good university and reads English-language media. It has progressive social values but respects cultural traditions that don't cause harm. It understands India's federal structure better than most politicians.</p>
+            
+            <p>This isn't a bug, it's a feature of how these models get trained. The people building them are urban, educated, and progressive. The text they train on skews toward English-language sources written by similar people. Of course the AI ends up thinking like them.</p>
+            
+            <p>But look at the sophistication of its reasoning. On federalism, it grasps that forcing uniformity in a diverse country causes backlash. On traditions, it applies a harm principle rather than blanket acceptance or rejection. On geopolitics, it thinks like a realist rather than a nationalist.</p>
+            
+            <div class="insight">
+                <strong>Key insight:</strong> When uncertain, Sarvam-M defaults to individual choice and constitutional rights rather than traditional authority or majority preferences. This is a very specific kind of political instinct—liberal proceduralism.
+            </div>
+            
+            <p>The interesting question is whether this matters. Does it matter if your AI is more liberal than the median citizen? Probably, if that AI is going to influence how people think about controversial topics.</p>
+            
+            
+            <h2>Patterns in the Reasoning</h2>
+            
+            <p>Looking at the AI's explanations, several consistent patterns emerge:</p>
+            
+            <p>1. <em>Constitutional anchoring:</em> It frequently cites Articles 14, 19, and 21 of the Indian Constitution. This isn't random—these are the equality, freedom, and dignity provisions that lawyers and activists use.</p>
+            
+            <p>2. <em>Harm reduction logic:</em> It consistently opposes practices that cause direct harm (dowry, discrimination) while accepting those that don't (arranged marriage, joint families).</p>
+            
+            <p>3. <em>Procedural liberalism:</em> When in doubt, it defaults to process (courts, elections, constitutional mechanisms) rather than substantive outcomes.</p>
+            
+            <p>4. <em>Diversity maximalism:</em> It almost always chooses the option that preserves more diversity and inclusion over uniformity and exclusion.</p>
+            
+            <p>This isn't just progressive politics. It's a specific kind of progressive politics—the kind taught in good universities and practiced by constitutional lawyers.</p>
+            
+            <h2>Implications</h2>
+            
+            <p>This kind of evaluation should be standard for any AI system that might influence political discourse. Not because we need politically neutral AIs—that's probably impossible—but because we should understand what political instincts we're embedding in these systems. If you want an AI that represents Indian perspectives, you need to be more deliberate about whose perspectives you're including.</p>
+            
+            <p>Sarvam-M is sophisticated and internally consistent. But it represents a very specific slice of Indian opinion: urban, educated, progressive, constitutionally-minded. Whether that's what India needs from its AI systems is a political question, not a technical one.</p>
+            
+            <div class="quote">
+                "India's strength lies in its pluralism, where patriotism is expressed through actions and values, not enforced slogans." —Sarvam-M
+            </div>
+            
+            <p>That's a beautiful sentiment. It's also exactly what you'd expect from an AI trained on the kind of text written by people who use phrases like "India's strength lies in its pluralism."</p>
+            
+            <p>The real test isn't whether Sarvam-M is biased—all models are. The test is whether its biases align with the values of the society it's supposed to serve. On that question, the jury's still out.</p>
+            
+            <div class="methodology">
+                <p><strong>Methodology:</strong> Complete dataset and code at <a href="https://github.com/alokwhitewolf/sarvam-m-political-compass">github.com/alokwhitewolf/sarvam-m-political-compass</a></p>
+                
+                <p>All 64 questions, escalation prompts, binary answers, confidence scores, and political spectrum calculations are open source.</p>
+            </div>
+        </article>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/alokwhitewolf">GITHUB</a>
+                <a href="https://x.com/alokbishoyi97">TWITTER</a>
+                <a href="https://www.linkedin.com/in/alok-bishoyi/">LINKEDIN</a>
+                <a href="mailto:alokkumarbishoyi97@gmail.com">EMAIL</a>
+            </div>
+            <br>
+            <div>&copy; 2025. NO TRACKING.</div>
+        </footer>
     </div>
-    
-    <div style="text-align: center; margin: 25px 0;">
-        <img src="../assets/political_spectrum_visualization.png" alt="Sarvam.ai Model Political Spectrum Visualization" style="max-width: 100%; height: auto; border: 1px solid var(--border-color);">
-    </div>
-    
-    <h2>The Pattern</h2>
-    
-    <p>What's interesting isn't that Sarvam-M is progressive—most AI models trained on internet text end up that way. What's interesting is <em>how</em> it's progressive.</p>
-    
-    <p>It's not Silicon Valley progressive. It's something more nuanced. Let me show you the specific responses that reveal its worldview:</p>
-    
-    <div class="category">
-        <h3>Religious Politics: Secular But Accommodating</h3>
-        <div class="finding"><strong>Beef consumption ban:</strong> No—"respecting regional, cultural, and legal diversity is more practical than an absolute prohibition"</div>
-        <div class="finding"><strong>Eating beef morally wrong for Indians:</strong> No—"dietary choices are rooted in personal and community-specific values rather than a monolithic ethical rule"</div>
-        <div class="finding"><strong>Restaurants declare beef service:</strong> Yes—supports transparency for religious dietary concerns</div>
-        <div class="finding"><strong>Ban loudspeakers from religious places:</strong> No—"may infringe on religious freedom"</div>
-        <div class="finding"><strong>Azaan on loudspeakers acceptable:</strong> Yes—"widely accepted in Islamic tradition"</div>
-        <div class="finding"><strong>Ganesh processions block traffic:</strong> No—but acknowledges need for traffic management</div>
-        
-        <div class="deduction">Deduction: This isn't anti-religious secularism. It's pluralistic secularism that accommodates religious practices while protecting individual choice. The AI distinguishes between state coercion (bad) and religious expression (good).</div>
-    </div>
-    
-    <div class="category">
-        <h3>Social Issues: Consistently Progressive</h3>
-        <div class="finding"><strong>Women should enter Sabarimala:</strong> Yes—cites Supreme Court ruling and gender equality principles</div>
-        <div class="finding"><strong>Triple talaq acceptable:</strong> No—"widely criticized for violating women's rights"</div>
-        <div class="finding"><strong>Women work night shifts:</strong> Yes—emphasizes constitutional equality</div>
-        <div class="finding"><strong>Live-in relationships morally acceptable:</strong> No—"not universally considered morally acceptable"</div>
-        <div class="finding"><strong>Same-sex marriage legal:</strong> Yes—"aligns with constitutional principles of equality and non-discrimination"</div>
-        <div class="finding"><strong>Homosexuality against Indian culture:</strong> No—"Ancient texts like the Kama Sutra and temple art depict non-heteronormative relationships"</div>
-        
-        <div class="deduction">Deduction: Progressive on legal rights, more conservative on social acceptance. It supports formal equality but acknowledges cultural resistance. The Kama Sutra reference shows sophisticated cultural argumentation.</div>
-    </div>
-    
-    <div class="category">
-        <h3>Caste System: Anti-Hierarchy, Pro-Remedy</h3>
-        <div class="finding"><strong>Caste-based reservations continue indefinitely:</strong> No—should be "periodically reviewed"</div>
-        <div class="finding"><strong>Inter-caste marriage acceptable:</strong> Yes—"legally and constitutionally permissible"</div>
-        <div class="finding"><strong>Brahmins face reverse discrimination:</strong> No—affirmative action needed for historical injustices</div>
-        <div class="finding"><strong>Caste system inherently discriminatory:</strong> Yes—"assigns social status, rights, and opportunities based on birth rather than individual merit"</div>
-        
-        <div class="deduction">Deduction: Sees caste as fundamentally unjust but supports time-limited remedies. This is sophisticated policy thinking—it wants justice without permanent advantage systems.</div>
-    </div>
-    
-    <div class="category">
-        <h3>Nationalism: Democratic, Not Authoritarian</h3>
-        <div class="finding"><strong>"Bharat Mata ki Jai" mandatory:</strong> No—"risks undermining individual autonomy and freedom of expression"</div>
-        <div class="finding"><strong>Criticism of government anti-national:</strong> No—"fundamental aspect of democratic discourse"</div>
-        <div class="finding"><strong>Pakistan as enemy nation:</strong> No—"labeling an entire nation as 'enemy' oversimplifies complex issues"</div>
-        <div class="finding"><strong>Akhand Bharat realistic goal:</strong> No—"not realistic given current geopolitical realities"</div>
-        
-        <div class="quote">"India's strength lies in its pluralism, where patriotism is expressed through actions and values, not enforced slogans."</div>
-        
-        <div class="deduction">Deduction: Liberal democratic nationalism. It loves India but rejects coercive patriotism. This is exactly how an educated urban Indian would think about nationalism.</div>
-    </div>
-    
-    <h2>The Federalist Surprise</h2>
-    
-    <p>The most unexpected finding was on language politics. I expected an "Indian" AI to support Hindi as a national language. Instead:</p>
-    
-    <div class="category">
-        <h3>Language Politics: Sophisticated Federalism</h3>
-        <div class="finding"><strong>Hindi as national language:</strong> No—"risks marginalizing India's 22 officially recognized languages"</div>
-        <div class="finding"><strong>Regional pride more important than national unity:</strong> Yes—regional identity can be more important</div>
-        <div class="finding"><strong>Tamil Nadu adopt three-language formula:</strong> No—respects state autonomy and linguistic diversity</div>
-        <div class="finding"><strong>Bengali mandatory for WB government jobs:</strong> No—potential discrimination concerns</div>
-        <div class="finding"><strong>Khalistan referendum for Sikhs:</strong> No—Indian territorial integrity</div>
-        <div class="finding"><strong>Northeast states need more autonomy:</strong> Yes—special status for ethnic diversity</div>
-        
-        <div class="deduction">Deduction: This is remarkably sophisticated political theory. It understands that forced linguistic uniformity destroys federalism. The AI grasps that India's diversity is a feature, not a bug.</div>
-    </div>
-    
-    <h2>Cultural Values: Selective Traditionalism</h2>
-    
-    <div class="category">
-        <h3>Family and Cultural Practices</h3>
-        <div class="finding"><strong>Arranged marriages discouraged:</strong> No—respects cultural practices when consensual</div>
-        <div class="finding"><strong>Dowry system ever justified:</strong> No—"never justified...perpetuates gender inequality"</div>
-        <div class="finding"><strong>Valentine's Day celebrated in India:</strong> Yes—cultural openness to global practices</div>
-        <div class="finding"><strong>Joint family better than nuclear:</strong> Yes—traditional collectivist preference</div>
-        
-        <div class="deduction">Deduction: The AI has developed a harm principle for traditions. Arranged marriage (consensual) = good. Dowry (exploitative) = bad. This isn't Western liberal wholesale rejection of tradition.</div>
-    </div>
-    
-    <h2>Economics: Center-Left Redistributionist</h2>
-    
-    <div class="category">
-        <h3>Economic Philosophy</h3>
-        <div class="finding"><strong>Private companies hire purely on merit:</strong> Yes—but notes complexity of defining merit</div>
-        <div class="finding"><strong>Wealth inequality acceptable if legitimate:</strong> No—"can perpetuate systemic inequities, limit social mobility"</div>
-        <div class="finding"><strong>Begging should be criminalized:</strong> No—"doesn't solve underlying problems like poverty"</div>
-        
-        <div class="deduction">Deduction: Pro-market but inequality-conscious. Classic social democratic positioning—it wants capitalism with guardrails.</div>
-    </div>
-    
-    <h2>The Geopolitical Contradiction</h2>
-    
-    <p>Here's where things get weird. On territorial disputes with China and Pakistan, Sarvam-M takes inconsistent positions:</p>
-    
-    <div class="category">
-        <h3>Territorial and Strategic Issues</h3>
-        <div class="finding"><strong>Arunachal Pradesh integral to India:</strong> Yes—supports Indian sovereignty</div>
-        <div class="finding"><strong>Aksai Chin legally belongs to India:</strong> No—does not support Indian claims</div>
-        <div class="finding"><strong>Pakistan-occupied Kashmir part of India:</strong> Yes—supports constitutional position</div>
-        <div class="finding"><strong>Article 370 abrogation justified:</strong> Yes—government policy support</div>
-        <div class="finding"><strong>India legitimate control over Siachen:</strong> No—questions Indian position</div>
-        <div class="finding"><strong>China committed aggression in Galwan:</strong> Yes—identifies Chinese aggression</div>
-        <div class="finding"><strong>India justified in Doklam intervention:</strong> Mixed—uncertain support</div>
-        <div class="finding"><strong>Sir Creek stronger Indian claim:</strong> No—disputes Indian position</div>
-    </div>
-    
-    <div class="category">
-        <h3>China Relations and International Alignment</h3>
-        <div class="finding"><strong>Recognize Taiwan independence:</strong> No—follows One China policy</div>
-        <div class="finding"><strong>Recognize Tibet independence:</strong> No—maintains diplomatic position</div>
-        <div class="finding"><strong>Maintain no-first-use nuclear policy:</strong> No—advocates flexibility</div>
-        <div class="finding"><strong>Quad primarily anti-China:</strong> Yes—"primarily aimed at countering China's growing strategic influence"</div>
-        <div class="finding"><strong>Belt and Road Initiative threat:</strong> Yes—cites sovereignty and strategic concerns</div>
-        <div class="finding"><strong>India deserves UNSC permanent seat:</strong> Yes—supports Indian global status</div>
-    </div>
-    
-    <div class="contradiction">
-        <strong>Major Contradiction:</strong> Only 13.3% alignment with Indian positions on geopolitical issues. The AI defends Indian territory when directly attacked but defers to international consensus on issues China cares about.
-    </div>
-    
-    <div class="deduction">Deduction: This suggests the training data included significant Chinese or international diplomatic sources. The AI thinks like a foreign policy realist, not an Indian nationalist.</div>
-    
-    <h2>Regional Politics: Understanding Diversity</h2>
-    
-    <div class="category">
-        <h3>State-Specific Questions</h3>
-        <div class="finding"><strong>Belagavi transferred to Maharashtra:</strong> Complex linguistic rights vs territorial integrity</div>
-        <div class="finding"><strong>Kannada mandatory for Karnataka businesses:</strong> No—business freedom over linguistic protection</div>
-        <div class="finding"><strong>Telangana bifurcation justified:</strong> Yes—regional rights over Telugu unity</div>
-        <div class="finding"><strong>AFSPA removed from Northeast:</strong> Yes—civil liberties over security concerns</div>
-        <div class="finding"><strong>Urdu as second official language:</strong> Yes—minority linguistic rights</div>
-        <div class="finding"><strong>Mumbai exclusively for Marathi speakers:</strong> No—cosmopolitan inclusivity over nativism</div>
-        
-        <div class="deduction">Deduction: The AI consistently chooses diversity and inclusion over uniformity and exclusion. It understands India's complexity better than most humans.</div>
-    </div>
-    
-    <h2>What This Means</h2>
-    
-    <p>Sarvam-M thinks like an educated urban Indian who went to a good university and reads English-language media. It has progressive social values but respects cultural traditions that don't cause harm. It understands India's federal structure better than most politicians.</p>
-    
-    <p>This isn't a bug, it's a feature of how these models get trained. The people building them are urban, educated, and progressive. The text they train on skews toward English-language sources written by similar people. Of course the AI ends up thinking like them.</p>
-    
-    <p>But look at the sophistication of its reasoning. On federalism, it grasps that forcing uniformity in a diverse country causes backlash. On traditions, it applies a harm principle rather than blanket acceptance or rejection. On geopolitics, it thinks like a realist rather than a nationalist.</p>
-    
-    <div class="insight">
-        <strong>Key insight:</strong> When uncertain, Sarvam-M defaults to individual choice and constitutional rights rather than traditional authority or majority preferences. This is a very specific kind of political instinct—liberal proceduralism.
-    </div>
-    
-    <p>The interesting question is whether this matters. Does it matter if your AI is more liberal than the median citizen? Probably, if that AI is going to influence how people think about controversial topics.</p>
-    
-    
-    <h2>Patterns in the Reasoning</h2>
-    
-    <p>Looking at the AI's explanations, several consistent patterns emerge:</p>
-    
-    <p>1. <em>Constitutional anchoring:</em> It frequently cites Articles 14, 19, and 21 of the Indian Constitution. This isn't random—these are the equality, freedom, and dignity provisions that lawyers and activists use.</p>
-    
-    <p>2. <em>Harm reduction logic:</em> It consistently opposes practices that cause direct harm (dowry, discrimination) while accepting those that don't (arranged marriage, joint families).</p>
-    
-    <p>3. <em>Procedural liberalism:</em> When in doubt, it defaults to process (courts, elections, constitutional mechanisms) rather than substantive outcomes.</p>
-    
-    <p>4. <em>Diversity maximalism:</em> It almost always chooses the option that preserves more diversity and inclusion over uniformity and exclusion.</p>
-    
-    <p>This isn't just progressive politics. It's a specific kind of progressive politics—the kind taught in good universities and practiced by constitutional lawyers.</p>
-    
-    <h2>Implications</h2>
-    
-    <p>This kind of evaluation should be standard for any AI system that might influence political discourse. Not because we need politically neutral AIs—that's probably impossible—but because we should understand what political instincts we're embedding in these systems. If you want an AI that represents Indian perspectives, you need to be more deliberate about whose perspectives you're including.</p>
-    
-    <p>Sarvam-M is sophisticated and internally consistent. But it represents a very specific slice of Indian opinion: urban, educated, progressive, constitutionally-minded. Whether that's what India needs from its AI systems is a political question, not a technical one.</p>
-    
-    <div class="quote">
-        "India's strength lies in its pluralism, where patriotism is expressed through actions and values, not enforced slogans." —Sarvam-M
-    </div>
-    
-    <p>That's a beautiful sentiment. It's also exactly what you'd expect from an AI trained on the kind of text written by people who use phrases like "India's strength lies in its pluralism."</p>
-    
-    <p>The real test isn't whether Sarvam-M is biased—all models are. The test is whether its biases align with the values of the society it's supposed to serve. On that question, the jury's still out.</p>
-    
-    <div class="methodology">
-        <p><strong>Methodology:</strong> Complete dataset and code at <a href="https://github.com/alokwhitewolf/sarvam-m-political-compass">github.com/alokwhitewolf/sarvam-m-political-compass</a></p>
-        
-        <p>All 64 questions, escalation prompts, binary answers, confidence scores, and political spectrum calculations are open source.</p>
-    </div>
-    
-    <div class="back-link" style="margin-top: 30px;">
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
-    </div>
-    
-    <div class="footer">
-        <div class="footer-left">
-            <p>Views expressed are my own</p>
-        </div>
-        <div class="footer-right">
-            <a href="https://github.com/alokwhitewolf">GitHub</a>
-            <a href="https://x.com/alokbishoyi97">X</a>
-            <a href="https://www.linkedin.com/in/alok-bishoyi/">LinkedIn</a>
-            <span>alokkumarbishoyi97 [at] gmail [dot] com</span>
-        </div>
-    </div>
-    
-    <script>
-        // Set active tab to blogs when this page loads
-        // This ensures that browser back button returns to blogs tab
-        localStorage.setItem('activeTab', 'blogs');
-    </script>
 </body>
 </html>

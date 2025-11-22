@@ -4,378 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alok Bishoyi</title>
-    <style>
-        :root {
-            --bg-color: #fff;
-            --text-color: #000;
-            --text-secondary: #666;
-            --border-color: #ddd;
-            --bg-secondary: #f8f8f8;
-            --bg-tertiary: #f0f0f0;
-            --bg-quaternary: #fafafa;
-            --link-color: #0000ee;
-            --link-hover-color: #0000aa;
-            --link-visited-color: #551a8b;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a1a;
-                --text-color: #e0e0e0;
-                --text-secondary: #a0a0a0;
-                --border-color: #404040;
-                --bg-secondary: #2a2a2a;
-                --bg-tertiary: #333333;
-                --bg-quaternary: #252525;
-                --link-color: #74b9ff;
-                --link-hover-color: #a0ceff;
-                --link-visited-color: #dda0dd;
-            }
-        }
-        
-        body {
-            font-family: Verdana, Geneva, sans-serif;
-            font-size: 13px;
-            line-height: 1.4;
-            color: var(--text-color);
-            max-width: 580px;
-            margin: 0 auto;
-            padding: 30px 15px;
-            background: var(--bg-color);
-        }
-        
-        h1 {
-            font-size: 18px;
-            font-weight: normal;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-        
-        h2 {
-            font-size: 14px;
-            font-weight: normal;
-            margin: 25px 0 10px 0;
-            color: var(--text-color);
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        
-        .post {
-            background: var(--bg-secondary);
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-        }
-        
-        .post-title {
-            font-size: 14px;
-            font-weight: normal;
-            margin-bottom: 8px;
-            text-decoration: underline;
-        }
-        
-        .post-date {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-        
-        .post-excerpt {
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .post-link {
-            font-size: 12px;
-        }
-        
-        .post-link a {
-            color: var(--link-color);
-        }
-        
-        .post-link a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        .post-link a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        .post {
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .post:hover {
-            background: var(--bg-tertiary);
-        }
-        
-        .links {
-            font-size: 12px;
-            margin: 20px 0;
-        }
-        
-        .links a {
-            color: var(--link-color);
-            margin-right: 15px;
-        }
-        
-        .links a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        .links a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        .press-item {
-            background: var(--bg-secondary);
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-        }
-        
-        .press-item img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid var(--border-color);
-            margin-bottom: 15px;
-        }
-        
-        .press-title {
-            font-size: 14px;
-            font-weight: normal;
-            margin-bottom: 8px;
-            text-decoration: underline;
-        }
-        
-        .press-publication {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-        
-        .press-description {
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-left {
-            flex: 1;
-        }
-        
-        .footer-right {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .footer-right a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .footer-right a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        .footer-right a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        @media (max-width: 580px) {
-            .footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .footer-left {
-                flex: none;
-            }
-            
-            .footer-right {
-                flex-wrap: wrap;
-            }
-        }
-        
-        .nav {
-            margin: 20px 0 30px 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        
-        .nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-right: 20px;
-            font-size: 12px;
-            padding: 5px 0;
-        }
-        
-        .nav a:hover {
-            color: var(--text-color);
-        }
-        
-        .nav a.active {
-            color: var(--text-color);
-            border-bottom: 1px solid var(--text-color);
-        }
-        
-        a {
-            color: var(--link-color);
-        }
-        
-        a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Alok Bishoyi</h1>
+    <header>
+        <h1>Alok Bishoyi</h1>
+        <div class="nav-wrapper">
+            <button onclick="showTab('about')" class="nav-link active" id="about-tab">Index</button>
+            <button onclick="showTab('investing')" class="nav-link" id="investing-tab">Investing</button>
+            <button onclick="showTab('blogs')" class="nav-link" id="blogs-tab">Writings</button>
+            <button onclick="showTab('press')" class="nav-link" id="press-tab">Press</button>
+        </div>
+    </header>
     
-    <div class="nav">
-        <a href="#" onclick="showTab('about')" class="active" id="about-tab">About</a>
-        <a href="#" onclick="showTab('investing')" id="investing-tab">Investing</a>
-        <a href="#" onclick="showTab('blogs')" id="blogs-tab">Blogs</a>
-        <a href="#" onclick="showTab('press')" id="press-tab">Press</a>
-    </div>
-    
-    <div id="about" class="tab-content active">
-        <p>Early-stage technology investor at <a href="https://www.dzero.vc">Day Zero Ventures</a>. Backed 12 companies—six have raised Series A, two have graduated to Series B. I look across the entire lifecycle: sourcing, due diligence, LP follow-up, and working with portfolio companies. <a href="#" onclick="showTab('investing')">More on investing →</a></p>
-        <p>Also run Indian operations for <a href="https://awl.co.jp">AWL</a>, a Japanese AI company. Have seen the company grow from 30 to 100+ people. Deployed smart cameras across 10,000+ sites in Japan, Southeast Asia, and the Middle East.</p>
-        <p>Co-founded a computer vision company while at IIT Bombay</p>
+    <main>
+        <div id="about" class="tab-content active">
+            <h2>01. PROFILE</h2>
+            <p>Early-stage technology investor at <a href="https://www.dzero.vc">Day Zero Ventures</a>. Backed 12 companies—six have raised Series A, two have graduated to Series B. I look across the entire lifecycle: sourcing, due diligence, LP follow-up, and working with portfolio companies. <a href="#" onclick="showTab('investing')">More on investing →</a></p>
+            <p>Also run Indian operations for <a href="https://awl.co.jp">AWL</a>, a Japanese AI company. Have seen the company grow from 30 to 100+ people. Deployed smart cameras across 10,000+ sites in Japan, Southeast Asia, and the Middle East.</p>
+            <p>Co-founded a computer vision company while at IIT Bombay</p>
+            
+            <p>Outside work: games (Age of Empires, Factorio, Cities: Skylines), MMA, Lifting, NFL, travel. Spent a quarter of 2024 in Japan. Planning US roadtrips for 2025.</p>
+        </div>
         
-        <p>Outside work: games (Age of Empires, Factorio, Cities: Skylines), MMA, Lifting, NFL, travel. Spent a quarter of 2024 in Japan. Planning US roadtrips for 2025.</p>
-    </div>
-    
-    <div id="investing" class="tab-content">
-        <p>I look for founders building infrastructure that enables new kinds of applications. Having built and scaled products myself, I help with product strategy and go-to-market execution.</p>
+        <div id="investing" class="tab-content">
+            <h2>01. THESIS</h2>
+            <p>I look for founders building infrastructure that enables new kinds of applications. Having built and scaled products myself, I help with product strategy and go-to-market execution.</p>
+            
+            <p>At <a href="https://www.dzero.vc">Day Zero Ventures</a>, I've backed 12 companies across US Healthcare, SaaS, Energy and Consumer. Six have raised Series A, two have graduated to Series B.</p>
+            
+            <p>Some key personal investments include <a href="https://neon.tech/">Neon</a> (<a href="https://techcrunch.com/2025/05/14/databricks-to-buy-open-source-database-startup-neon-for-1b/">acq: Databricks for $1B</a>).</p>
+            
+            <h2>02. AREAS</h2>
+            <p>I'm particularly interested in:</p>
+            <ul>
+                <li>Developer tools and infrastructure</li>
+                <li>Enterprise software / B2B SaaS</li>
+                <li>AI/ML applications in healthcare</li>
+                <li>Consumer applications leveraging new tech capabilities</li>
+            </ul>
+            
+            <p>If you're building something interesting, reach out to me at alok[at]dzero[dot]vc.</p>
+        </div>
         
-        <p>At <a href="https://www.dzero.vc">Day Zero Ventures</a>, I've backed 12 companies across US Healthcare, SaaS, Energy and Consumer. Six have raised Series A, two have graduated to Series B.</p>
-        
-        <p>Some key personal investments include <a href="https://neon.tech/">Neon</a> (<a href="https://techcrunch.com/2025/05/14/databricks-to-buy-open-source-database-startup-neon-for-1b/">acq: Databricks for $1B</a>).</p>
-        
-        <p>I'm particularly interested in:</p>
-        <ul>
-            <li>Developer tools and infrastructure</li>
-            <li>Enterprise software / B2B SaaS</li>
-            <li>AI/ML applications in healthcare</li>
-            <li>Consumer applications leveraging new tech capabilities</li>
-        </ul>
-        
-        <p>If you're building something interesting, reach out to me at alok[at]dzero[dot]vc.</p>
-    </div>
-    
-    <div id="blogs" class="tab-content">
-        <div class="post" onclick="window.location.href='blogposts/reverse-engineering-browser-automation.html'">
-            <div class="post-title">Reverse Engineering Browser Automatione</div>
-            <div class="post-date">November 2025</div>
-            <div class="post-excerpt">
-                I got curious about how Antigravity IDE makes Chrome do things automatically. What started as a simple question turned into a deep dive—tracing connections, reading process lists, and following the trail from one component to the next. Sometimes the best way to understand something is to take it apart and see how it works.
+        <div id="blogs" class="tab-content">
+            <h2>01. WRITINGS</h2>
+            <div class="post-list">
+                <div class="post-row">
+                    <div class="post-date">2025-11-22</div>
+                    <div>
+                        <a href="blogposts/architecture-is-a-verdict.html" class="post-title">Your surroundings are a verdict of your worth</a>
+                        <div class="post-desc">Reflections on infrastructure, dignity, and the built environment.</div>
+                    </div>
+                </div>
+                
+                <div class="post-row">
+                    <div class="post-date">2025-11-19</div>
+                    <div>
+                        <a href="blogposts/reverse-engineering-browser-automation.html" class="post-title">Reverse Engineering Browser Automation</a>
+                        <div class="post-desc">Decompiling Antigravity IDE to find the hidden "Jetski" sub-agent.</div>
+                    </div>
+                </div>
+                
+                <div class="post-row">
+                    <div class="post-date">2025-06-15</div>
+                    <div>
+                        <a href="blogposts/whisper-speed-optimization.html" class="post-title">Whisper's Hidden Optimization</a>
+                        <div class="post-desc">1.5x speed = 33% cost reduction. The math behind audio processing.</div>
+                    </div>
+                </div>
+                
+                <div class="post-row">
+                    <div class="post-date">2025-05-10</div>
+                    <div>
+                        <a href="blogposts/sarvam-political-evaluation.html" class="post-title">Testing AI Political Bias</a>
+                        <div class="post-desc">Forcing Sarvam-M to take binary stances on 64 controversial topics.</div>
+                    </div>
+                </div>
+                
+                <div class="post-row">
+                    <div class="post-date">2024-08-20</div>
+                    <div>
+                        <a href="blogposts/psych-experiment-20k-views.html" class="post-title">Viral Psychology Experiment</a>
+                        <div class="post-desc">20k views in 24h. A study in status anxiety and income transparency.</div>
+                    </div>
+                </div>
             </div>
-            <div class="post-link">Read →</div>
         </div>
         
-        <div class="post" onclick="window.location.href='blogposts/whisper-speed-optimization.html'">
-            <div class="post-title">Whisper's Hidden Optimization</div>
-            <div class="post-date">June 2025</div>
-            <div class="post-excerpt">
-                Running audio at 1.5x speed before sending it to Whisper cuts costs by 33% while only adding 2.4% error rate. I tested 209 experiments to find the exact boundaries.
+        <div id="press" class="tab-content">
+            <h2>01. CLIPPINGS</h2>
+            <div class="press-entry">
+                <div>
+                    <h3>Times of India</h3>
+                    <p><em>"Japanese Startups Invest in India Talent"</em> (May 2023)</p>
+                    <p>Coverage of Japanese VC investment trends in Indian technical talent.</p>
+                </div>
+                <img src="assets/toi-publication.jpeg" alt="Times of India Feature" class="img-expandable" onclick="openModal(this)">
             </div>
-            <div class="post-link">Read →</div>
         </div>
-        
-        <div class="post" onclick="window.location.href='blogposts/sarvam-political-evaluation.html'">
-            <div class="post-title">What I Learned Testing Sarvam's AI on 64 Controversial Questions</div>
-            <div class="post-date">May 2025</div>
-            <div class="post-excerpt">
-                I built a system that forces AI models to take binary positions on controversial topics. Testing this on Sarvam-M revealed it thinks like an educated urban Indian—but represents only a narrow slice of the country it's supposed to serve.
-            </div>
-            <div class="post-link">Read →</div>
-        </div>
-        
-        <div class="post" onclick="window.location.href='blogposts/psych-experiment-20k-views.html'">
-            <div class="post-title">A Psychology Experiment: 20k views in <24 hours</div>
-            <div class="post-date">August 2024</div>
-            <div class="post-excerpt">
-                I built indiaincomecheck.in—a simple tool that hit 20,000 views in 24 hours. What started as a weekend project became a lesson in viral psychology and India's relationship with money.
-            </div>
-            <div class="post-link">Read →</div>
-        </div>
-    </div>
+    </main>
     
-    <div id="press" class="tab-content">
-        <div class="press-item">
-            <div class="press-title">Japanese Startups Invest in India Talent</div>
-            <div class="press-publication">Times of India | May 2023</div>
-            <div class="press-description">
-                Featured in Times of India's coverage of Japanese venture capital investment in Indian talent and technology companies. The article highlights the growing trend of Japanese startups looking to India for technical expertise and innovation.
-            </div>
-            <img src="assets/toi-publication.jpeg" alt="Times of India - Japanese Startups Invest in India Talent">
+    <footer>
+        <div class="footer-links">
+            <a href="https://github.com/alokwhitewolf">GITHUB</a>
+            <a href="https://x.com/alokbishoyi97">TWITTER</a>
+            <a href="https://www.linkedin.com/in/alok-bishoyi/">LINKEDIN</a>
+            <a href="mailto:alokkumarbishoyi97@gmail.com">EMAIL</a>
         </div>
-    </div>
-    
-    <div class="footer">
-        <div class="footer-left">
-            <p>Views expressed are my own</p>
-        </div>
-        <div class="footer-right">
-            <a href="https://github.com/alokwhitewolf">GitHub</a>
-            <a href="https://x.com/alokbishoyi97">X</a>
-            <a href="https://www.linkedin.com/in/alok-bishoyi/">LinkedIn</a>
-            <span>alokkumarbishoyi97 [at] gmail [dot] com</span>
-        </div>
+        <br>
+        <div>&copy; 2025. NO TRACKING.</div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal-overlay" onclick="closeModal()">
+        <img id="modalImg" class="modal-img" src="" alt="">
     </div>
     
     <script>
         function showTab(tabName) {
-            // Hide all tab contents
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
             
-            // Remove active class from all nav links
-            const navLinks = document.querySelectorAll('.nav a');
+            const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => link.classList.remove('active'));
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to selected nav link
             document.getElementById(tabName + '-tab').classList.add('active');
         }
         
-        // Check for active tab on page load
+        // Image Modal Logic
+        function openModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = img.src;
+            modal.classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             const activeTab = localStorage.getItem('activeTab');
             if (activeTab) {
                 showTab(activeTab);
-                localStorage.removeItem('activeTab'); // Clear after use
+                localStorage.removeItem('activeTab');
             }
         });
     </script>

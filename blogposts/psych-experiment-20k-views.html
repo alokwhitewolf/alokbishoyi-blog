@@ -4,362 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Psychology Experiment That Hit 20K Views</title>
-    <style>
-        :root {
-            --bg-color: #fff;
-            --text-color: #000;
-            --text-secondary: #666;
-            --border-color: #ddd;
-            --bg-secondary: #f8f8f8;
-            --bg-tertiary: #f0f0f0;
-            --bg-quaternary: #fafafa;
-            --link-color: #0000ee;
-            --link-hover-color: #0000aa;
-            --link-visited-color: #551a8b;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a1a;
-                --text-color: #e0e0e0;
-                --text-secondary: #a0a0a0;
-                --border-color: #404040;
-                --bg-secondary: #2a2a2a;
-                --bg-tertiary: #333333;
-                --bg-quaternary: #252525;
-                --link-color: #74b9ff;
-                --link-hover-color: #a0ceff;
-                --link-visited-color: #dda0dd;
-            }
-        }
-        
-        body {
-            font-family: Verdana, Geneva, sans-serif;
-            font-size: 13px;
-            line-height: 1.4;
-            color: var(--text-color);
-            max-width: 580px;
-            margin: 0 auto;
-            padding: 30px 15px;
-            background: var(--bg-color);
-        }
-        
-        h1 {
-            font-size: 18px;
-            font-weight: normal;
-            margin-bottom: 5px;
-            color: var(--text-color);
-        }
-        
-        h2 {
-            font-size: 14px;
-            font-weight: normal;
-            margin: 25px 0 10px 0;
-            color: var(--text-color);
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        
-        .date {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-        
-        .back-link {
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .back-link a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .back-link a:hover {
-            color: var(--link-hover-color);
-            text-decoration: underline;
-        }
-        
-        a {
-            color: var(--link-color);
-        }
-        
-        a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        .tweet {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            background: var(--bg-secondary);
-            font-size: 12px;
-        }
-        
-        .tweet-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .tweet-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--text-secondary);
-            margin-right: 8px;
-        }
-        
-        .tweet-name {
-            font-weight: bold;
-            margin-right: 5px;
-        }
-        
-        .tweet-handle {
-            color: var(--text-secondary);
-        }
-        
-        .tweet-content {
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-        
-        .tweet-date {
-            color: var(--text-secondary);
-            font-size: 11px;
-        }
-        
-        /* Style blockquotes before Twitter widgets load */
-        blockquote.twitter-tweet {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            margin: 20px 0;
-            background: var(--bg-secondary);
-            font-size: 12px;
-            line-height: 1.4;
-            max-width: 550px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        blockquote.twitter-tweet:hover {
-            background: var(--bg-tertiary);
-        }
-        
-        blockquote.twitter-tweet p {
-            margin: 0 0 12px 0;
-        }
-        
-        blockquote.twitter-tweet a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        blockquote.twitter-tweet a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Hide the blockquote once Twitter widget loads */
-        .twitter-tweet-rendered {
-            display: none;
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-left {
-            flex: 1;
-        }
-        
-        .footer-right {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .footer-right a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .footer-right a:visited {
-            color: var(--link-visited-color);
-        }
-        
-        .footer-right a:hover {
-            color: var(--link-hover-color);
-        }
-        
-        @media (max-width: 580px) {
-            .footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .footer-left {
-                flex: none;
-            }
-            
-            .footer-right {
-                flex-wrap: wrap;
-            }
-        }
-        
-        .nav {
-            margin: 20px 0 30px 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        
-        .nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-right: 20px;
-            font-size: 12px;
-            padding: 5px 0;
-        }
-        
-        .nav a:hover {
-            color: var(--text-color);
-        }
-        
-        .nav a.active {
-            color: var(--text-color);
-            border-bottom: 1px solid var(--text-color);
-        }
-        
-        .back-link {
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .back-link a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-        
-        .back-link a:hover {
-            color: var(--link-hover-color);
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
-    <h1><a href="../index.html" style="color: var(--link-color); text-decoration: none;">Alok Bishoyi</a></h1>
-    
-    <div class="nav">
-        <a href="../index.html">About</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'investing')">Investing</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')" class="active">Blogs</a>
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'press')">Press</a>
+    <div class="container">
+        <div class="back-nav">
+            <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Index / Writings</a>
+        </div>
+
+        <header>
+            <h1>A Psychology Experiment: 20k views in <24 hours</h1>
+            <span class="date">August 2024</span>
+        </header>
+
+        <article class="stagger-1">
+            <p>Spent 30 minutes building <a href="https://indiaincomecheck.in/">indiaincomecheck.in</a> - type your income, get your percentile. 20k views in <24 hours. Hit top of r/DevelopersIndia.</p>
+            
+            <div class="insight">
+                <strong>The Mechanism:</strong> This is classic Kahneman bias in action. Indians have asymmetric information about income distribution - massive delta between perception and reality. This created a low-friction discovery mechanism for forbidden knowledge. Status anxiety + social proof = viral coefficient of >1.
+            </div>
+
+            <p>Same reason anonymous platforms like Blind explode with TC discussions. Remove identity = remove social cost of bragging/complaining. Developers will overshare compensation data when there's zero reputational risk. Anonymity unlocks authentic behavior that social norms otherwise suppress.</p>
+            
+            <h2>Reactions</h2>
+            
+            <blockquote class="twitter-tweet" data-theme="light">
+                <p lang="in" dir="ltr">paisa fek tamasha dekh <a href="https://t.co/BeWP7m6Kxq">https://t.co/BeWP7m6Kxq</a> <a href="https://t.co/ho7Ep6WZB0">pic.twitter.com/ho7Ep6WZB0</a></p>
+                &mdash; Aditya Behere (@BehereBaba) <a href="https://twitter.com/BehereBaba/status/1825500145074479187?ref_src=twsrc%5Etfw">August 19, 2024</a>
+            </blockquote>
+            
+            <blockquote class="twitter-tweet" data-theme="light">
+                <p lang="en" dir="ltr">Just in case. if someone wants a reality check as to where they stand in terms of income and how many people in India earn more than them!👇<a href="https://t.co/PNwd7NCIuo">https://t.co/PNwd7NCIuo</a><br><br>Credits-<a href="https://twitter.com/alokbishoyi97?ref_src=twsrc%5Etfw">@alokbishoyi97</a></p>
+                &mdash; Reema Bajaj (@reemaabajaj) <a href="https://twitter.com/reemaabajaj/status/1844454432035291397?ref_src=twsrc%5Etfw">October 10, 2024</a>
+            </blockquote>
+        </article>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/alokwhitewolf">GITHUB</a>
+                <a href="https://x.com/alokbishoyi97">TWITTER</a>
+                <a href="https://www.linkedin.com/in/alok-bishoyi/">LINKEDIN</a>
+                <a href="mailto:alokkumarbishoyi97@gmail.com">EMAIL</a>
+            </div>
+            <br>
+            <div>&copy; 2025. NO TRACKING.</div>
+        </footer>
     </div>
-    
-    <div class="back-link">
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
-    </div>
-    
-    <h1>A Psychology Experiment: 20k views in <24 hours </h1>
-    <div class="date">August 2024</div>
-    
-    <p>Spent 30 minutes building <a href="https://indiaincomecheck.in/">indiaincomecheck.in</a> - type your income, get your percentile. 20k views in <24 hours. Hit top of r/DevelopersIndia.</p>
-    
-        
-    <p>This is classic Kahneman bias in action. Indians have asymmetric information about income distribution - massive delta between perception and reality. This created a low-friction discovery mechanism for forbidden knowledge. Status anxiety + social proof = viral coefficient of >1.</p>
-    
-    <p>Same reason anonymous platforms like Blind explode with TC discussions. Remove identity = remove social cost of bragging/complaining. Developers will overshare compensation data when there's zero reputational risk. Anonymity unlocks authentic behavior that social norms otherwise suppress.</p>
-    
-    <h2>Reactions</h2>
-    
-    <blockquote class="twitter-tweet" data-theme="auto">
-        <p lang="in" dir="ltr">paisa fek tamasha dekh <a href="https://t.co/BeWP7m6Kxq">https://t.co/BeWP7m6Kxq</a> <a href="https://t.co/ho7Ep6WZB0">pic.twitter.com/ho7Ep6WZB0</a></p>
-        &mdash; Aditya Behere (@BehereBaba) <a href="https://twitter.com/BehereBaba/status/1825500145074479187?ref_src=twsrc%5Etfw">August 19, 2024</a>
-    </blockquote>
-    
-    <blockquote class="twitter-tweet" data-theme="auto">
-        <p lang="en" dir="ltr">Just in case. if someone wants a reality check as to where they stand in terms of income and how many people in India earn more than them!👇<a href="https://t.co/PNwd7NCIuo">https://t.co/PNwd7NCIuo</a><br><br>Credits-<a href="https://twitter.com/alokbishoyi97?ref_src=twsrc%5Etfw">@alokbishoyi97</a></p>
-        &mdash; Reema Bajaj (@reemaabajaj) <a href="https://twitter.com/reemaabajaj/status/1844454432035291397?ref_src=twsrc%5Etfw">October 10, 2024</a>
-    </blockquote>
-    
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
     <script>
-        // Set Twitter theme based on system preference
+        // Force light theme for Twitter widgets since our site is light mode
         document.addEventListener('DOMContentLoaded', function() {
-            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = isDarkMode ? 'dark' : 'light';
-            
-            // Update all tweet themes
             const tweets = document.querySelectorAll('blockquote.twitter-tweet');
             tweets.forEach(function(tweet) {
-                tweet.setAttribute('data-theme', theme);
+                tweet.setAttribute('data-theme', 'light');
             });
-            
-            // Make blockquotes clickable before Twitter widgets load
-            tweets.forEach(function(tweet, index) {
-                const link = tweet.querySelector('a[href*="twitter.com"], a[href*="x.com"]');
-                
-                tweet.addEventListener('click', function() {
-                    if (link) {
-                        window.open(link.href, '_blank');
-                    }
-                });
-            });
-            
-            // Listen for theme changes
-            if (window.matchMedia) {
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-                    const newTheme = e.matches ? 'dark' : 'light';
-                    tweets.forEach(function(tweet) {
-                        tweet.setAttribute('data-theme', newTheme);
-                    });
-                    // Reload Twitter widgets with new theme
-                    if (typeof twttr !== 'undefined') {
-                        twttr.widgets.load();
-                    }
-                });
-            }
         });
-    </script>
-    
-    <div class="back-link" style="margin-top: 30px;">
-        <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Back to Blogs</a>
-    </div>
-    
-    <div class="footer">
-        <div class="footer-left">
-            <p>Views expressed are my own</p>
-        </div>
-        <div class="footer-right">
-            <a href="https://github.com/alokwhitewolf">GitHub</a>
-            <a href="https://x.com/alokbishoyi97">X</a>
-            <a href="https://www.linkedin.com/in/alok-bishoyi/">LinkedIn</a>
-            <span>alokkumarbishoyi97 [at] gmail [dot] com</span>
-        </div>
-    </div>
-    
-    <script>
-        // Set active tab to blogs when this page loads
-        // This ensures that browser back button returns to blogs tab
-        localStorage.setItem('activeTab', 'blogs');
     </script>
 </body>
 </html>
