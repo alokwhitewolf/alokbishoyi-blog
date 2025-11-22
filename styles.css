@@ -27,6 +27,11 @@
     --font-mono: "SF Mono", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
 }
 
+::selection {
+    background-color: #ffff00; /* High-vis highlighter yellow */
+    color: #000000;
+}
+
 /* Reset - Keep it raw */
 * {
     box-sizing: border-box;
