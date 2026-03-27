@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Making Your Claude Code or Codex Read and Browse X</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="back-nav">
+            <a href="../index.html" onclick="localStorage.setItem('activeTab', 'blogs')">← Index / Writings</a>
+        </div>
+
+        <header>
+            <h1>Making Your Claude Code or Codex Read and Browse X</h1>
+            <span class="date">March 2026</span>
+        </header>
+
+        <article class="stagger-1">
+            <p>I wanted an AI agent to read a tweet. X blocks direct fetching. The official API is $100/month for basic access. The free tier gives you one request every fifteen minutes.</p>
+
+            <p>Paid workarounds exist -Exa, Firecrawl, Apify, headless browsers. Overkill.</p>
+
+            <p>There are two unauthenticated endpoints that just give you the data.</p>
+
+            <h2>fxtwitter</h2>
+
+            <p><a href="https://github.com/FixTweet/FxTwitter">fxtwitter</a> started as a Discord/Telegram fix -Twitter's link previews are broken on both, so someone built a proxy. Under the hood it's a Cloudflare Worker that calls Twitter's internal GraphQL API using the same bearer token the web app uses, forges browser-like headers to look like a real Chrome session, and returns clean JSON. There's a companion service called <a href="https://github.com/FxEmbed/elongator">Elongator</a> that maintains a pool of real Twitter account credentials for when guest access fails (NSFW content, rate limits). Twitter has tried to kill this multiple times -they removed the REST API in June 2023, killed guest account creation in January 2024 (which took down Nitter), and introduced an anti-bot header (<code>X-Client-Transaction-Id</code>) that required reverse-engineering SVG animations and cryptographic hashing. fxtwitter survived all of it.</p>
+
+            <pre><code>curl "https://api.fxtwitter.com/username/status/123456789"</code></pre>
+
+            <p>Full text, author, engagement stats, media. No auth on your end. One tweet per call -no thread replies.</p>
+
+            <h2>The syndication endpoint</h2>
+
+            <p>This one is simpler and more durable. Twitter embeds -the <code>&lt;blockquote class="twitter-tweet"&gt;</code> cards on blogs -need to render on any website without API keys. So there's an unauthenticated endpoint backing them.</p>
+
+            <pre><code>curl "https://syndication.twitter.com/srv/timeline-profile/screen-name/{username}"</code></pre>
+
+            <p>Returns an HTML page with the user's recent timeline as JSON in a <code>__NEXT_DATA__</code> script tag. Thread replies, retweets, media, engagement counts. Filter by <code>conversation_id_str</code> to reconstruct a thread.</p>
+
+            <p>Unlike fxtwitter, there's no arms race here. This endpoint powers every embedded tweet on every blog and news site on the internet. Twitter can't kill it without breaking millions of pages.</p>
+
+            <p>Use both together. fxtwitter for the main tweet, syndication for the thread. I packaged this into a skill that works on any platform supporting them (Claude Code, Codex, etc): <a href="../assets/x-reader.skill" download>x-reader.skill</a></p>
+
+            <p>Limits: ~20 most recent tweets per profile. No keyword search. Protected accounts don't work. Only the author's self-replies come through.</p>
+        </article>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/alokwhitewolf">GITHUB</a>
+                <a href="https://x.com/alokbishoyi97">TWITTER</a>
+                <a href="https://www.linkedin.com/in/alok-bishoyi/">LINKEDIN</a>
+                <a href="mailto:alokkumarbishoyi97@gmail.com">EMAIL</a>
+            </div>
+            <br>
+            <div>&copy; 2025. Views expressed are my own.</div>
+        </footer>
+    </div>
+</body>
+</html>

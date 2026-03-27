@@ -23,7 +23,7 @@
         <article class="stagger-1">
             <div class="highlight">
                 <p>Google launched Antigravity IDE on November 18, 2025. It's a fork of VS Code with AI agents built in. The agents can write code, edit files, run terminal commands, and control a browser. I got access to the public preview and tried it out.</p>
-                <p>What struck me was the browser integration. Cursor has something similar—agents that can interact with web pages—but Antigravity's implementation felt different. When you ask it to do something in a browser, a Chrome window opens, the agent navigates and clicks around, and everything gets recorded as a video artifact. I wanted to know how it worked.</p>
+                <p>What struck me was the browser integration. Cursor has something similar -agents that can interact with web pages -but Antigravity's implementation felt different. When you ask it to do something in a browser, a Chrome window opens, the agent navigates and clicks around, and everything gets recorded as a video artifact. I wanted to know how it worked.</p>
                 <p>So I treated it as a black box and worked backwards. </p>
             </div>
 
@@ -106,7 +106,7 @@ language_server_macos_arm  15440  alokbishoyi   15u  IPv6  ... TCP *:53422 (LIST
   --api_server_url http://jetski-server.corp.goog \
   --csrf_token [REDACTED]</code></pre>
             
-            <p>Port 53410 was the extension server—the API endpoint for tool execution. Ports 53412-53413 were standard LSP channels for code intelligence. Port 53422 was an additional service channel. This was Antigravity's custom coordination server handling both code features and agent orchestration. The command-line flags revealed it connects to Google's internal infrastructure (<code>jetski-server.corp.goog</code>) and uses CSRF tokens for authentication.</p>
+            <p>Port 53410 was the extension server -the API endpoint for tool execution. Ports 53412-53413 were standard LSP channels for code intelligence. Port 53422 was an additional service channel. This was Antigravity's custom coordination server handling both code features and agent orchestration. The command-line flags revealed it connects to Google's internal infrastructure (<code>jetski-server.corp.goog</code>) and uses CSRF tokens for authentication.</p>
 
             <h2>Chapter 2: Cracking the Binary</h2>
             <p>The Language Server was a compiled binary, which usually means a dead end. But I decided to try a classic reverse-engineering trick: the <code>strings</code> command.</p>
@@ -204,14 +204,14 @@ google3/third_party/jetski/cortex/tools/tools.(*OpenBrowserUrlToolConverter).Get
 *chatconverters.BrowserScrollStringConverter
 *chatconverters.OpenBrowserUrlStringConverter</code></pre>
             
-            <p>These StringConverters handle the reverse transformation—converting internal Cortex steps into natural language text that gets included in the LLM's conversation context:</p>
+            <p>These StringConverters handle the reverse transformation -converting internal Cortex steps into natural language text that gets included in the LLM's conversation context:</p>
             
             <pre><code>*chatconverters.BrowserInputStringConverter
 *chatconverters.BrowserGetDomStringConverter
 *chatconverters.BrowserScrollStringConverter
 *chatconverters.OpenBrowserUrlStringConverter</code></pre>
             
-            <p>This dual-layer architecture—ToolConverters for LLM→internal translation and StringConverters for internal→LLM text (for conversation history)—ensures type safety at every boundary. The system validates tool calls before execution, handles partial parsing for streaming responses, and converts completed steps back into natural language that the LLM can read in subsequent turns.</p>
+            <p>This dual-layer architecture -ToolConverters for LLM→internal translation and StringConverters for internal→LLM text (for conversation history) -ensures type safety at every boundary. The system validates tool calls before execution, handles partial parsing for streaming responses, and converts completed steps back into natural language that the LLM can read in subsequent turns.</p>
             
             <h3>The Complete Browser Tool Arsenal</h3>
             <p>By extracting strings from the binary and cross-referencing with the MCP server code, I was able to reconstruct the complete set of browser tools available to the sub-agent:</p>
@@ -352,7 +352,7 @@ google3/third_party/jetski/prompt/template_provider/templates/system_prompts/</c
             <p>The binary confirmed the connection to Google's internal "jetski-server" infrastructure that I'd seen in the command-line flags. The presence of <code>template_provider</code> paths suggests that prompts are loaded from template files, explaining the fragmented nature of the prompt strings.</p>
 
             <h2>Chapter 3: The Soul (The Reconstructed Prompt)</h2>
-            <p>If "Jetski" was the body, what was the soul? I wanted to find the system prompt—the text that tells the AI who it is.</p>
+            <p>If "Jetski" was the body, what was the soul? I wanted to find the system prompt -the text that tells the AI who it is.</p>
             
             <p>I started by searching for common prompt patterns in the binary:</p>
             
@@ -373,7 +373,7 @@ You are an expert AI coding assistant and are pair programming with a USER to so
             <pre><code>$ strings /Applications/Antigravity.app/.../language_server_macos_arm | grep "Open a URL in Jetski Browser"
 Open a URL in Jetski Browser to view the page contents of a URL in a rendered format. You can also use this tool to navigate to different URLs or reload the current page.</code></pre>
             
-            <p>The prompt wasn't a single contiguous block of text I could extract. Instead, it was <strong>fragmented</strong>—compiled as individual string literals scattered throughout the binary. The Language Server likely assembles these pieces dynamically at runtime to construct the full system prompt. This explains why a simple <code>strings</code> dump didn't reveal a neat "You are Jetski..." paragraph.</p>
+            <p>The prompt wasn't a single contiguous block of text I could extract. Instead, it was <strong>fragmented</strong> -compiled as individual string literals scattered throughout the binary. The Language Server likely assembles these pieces dynamically at runtime to construct the full system prompt. This explains why a simple <code>strings</code> dump didn't reveal a neat "You are Jetski..." paragraph.</p>
             
             <p>By extracting all relevant strings and cross-referencing with the template provider paths found in the binary (<code>google3/third_party/jetski/prompt/template_provider/templates/system_prompts/</code>), I was able to reconstruct a more complete picture of the system prompt:</p>
             
@@ -433,7 +433,7 @@ Open a URL in Jetski Browser to view the page contents of a URL in a rendered fo
                 </ul>
             </div>
             
-            <p>This confirmed that the <code>browser_subagent</code> spins up a dedicated sub-agent with a specific persona ("Jetski Browser") constructed from these embedded fragments. The prompt is assembled from template files at runtime, which explains why it appears fragmented in the binary—each component is stored separately and combined dynamically.</p>
+            <p>This confirmed that the <code>browser_subagent</code> spins up a dedicated sub-agent with a specific persona ("Jetski Browser") constructed from these embedded fragments. The prompt is assembled from template files at runtime, which explains why it appears fragmented in the binary -each component is stored separately and combined dynamically.</p>
             
             <h3>Template-Based Prompt System</h3>
             <p>The binary references suggest the prompt system uses templates stored in:</p>
@@ -511,15 +511,15 @@ app.get('/.identity', (req, res) => {
 
             <h2>Parting Thoughts</h2>
 
-            <p><strong>Previous MCP integrations</strong> followed a simpler pattern: the IDE would spawn an MCP server as a child process, communicate via STDIO, and expose tools directly to the main AI agent. Tools were typically thin wrappers around existing APIs—file operations, terminal commands, or simple HTTP requests. The agent would call these tools directly, and the MCP server would execute them synchronously.</p>
+            <p><strong>Previous MCP integrations</strong> followed a simpler pattern: the IDE would spawn an MCP server as a child process, communicate via STDIO, and expose tools directly to the main AI agent. Tools were typically thin wrappers around existing APIs -file operations, terminal commands, or simple HTTP requests. The agent would call these tools directly, and the MCP server would execute them synchronously.</p>
             
             <p><strong>Antigravity's approach</strong> It does it a bit differently. First, it uses a <em>sub-agent pattern</em>: instead of exposing browser tools directly to the main agent, it spawns a dedicated "Jetski" sub-agent with its own system prompt and specialized tool set. This sub-agent runs as a separate AI instance, allowing it to maintain browser-specific context and decision-making logic independently from the main IDE agent.</p>
             
-            <p>Second, the MCP server isn't spawned directly by the IDE—it's orchestrated by the language server, which acts as a coordination layer. The language server manages the sub-agent lifecycle, routes tool calls, and handles the translation between the sub-agent's tool invocations and the actual browser automation layer.</p>
+            <p>Second, the MCP server isn't spawned directly by the IDE -it's orchestrated by the language server, which acts as a coordination layer. The language server manages the sub-agent lifecycle, routes tool calls, and handles the translation between the sub-agent's tool invocations and the actual browser automation layer.</p>
             
             <p>Third, instead of using a standard browser automation library like Playwright or Puppeteer directly, Antigravity inserts a Chrome extension as an intermediary. This extension runs an HTTP server inside the browser, providing a high-level API that abstracts away the complexity of Chrome DevTools Protocol while still allowing low-level CDP access when needed.</p>
             
-            <p>What's interesting here is that MCP servers aren't just tool providers anymore—they're agent coordinators. When you have something complex like browser automation, you don't want your main agent thinking about DOM elements and network timing. You want it focused on code. So Antigravity delegates: the main agent coordinates, the sub-agent handles browser logic, the language server routes, and the extension executes. Each layer does one thing well.</p>
+            <p>What's interesting here is that MCP servers aren't just tool providers anymore -they're agent coordinators. When you have something complex like browser automation, you don't want your main agent thinking about DOM elements and network timing. You want it focused on code. So Antigravity delegates: the main agent coordinates, the sub-agent handles browser logic, the language server routes, and the extension executes. Each layer does one thing well.</p>
         </article>
         
         <footer>
